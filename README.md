@@ -10,6 +10,6 @@ This is a React JS demo calculator app built to demonstrate my working knowledge
 
 ## Technology Stacks Used
 
-React JS library version 17.0.2, mathjs library, HTML5, CSS3.
+React JS version 17.0.2, mathjs library, HTML5, CSS3.
 
 
