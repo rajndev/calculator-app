@@ -2,6 +2,7 @@
 
 This is a React JS demo calculator app built to demonstrate my working knowledge of React JS.
 
+
 <p align="center">
   <img src="src/screenshots/calc_screenshot.png">
 </p>
