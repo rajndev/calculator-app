@@ -1,4 +1,4 @@
-# ASP.NET Core MVC Demo Weather App
+# React JS Demo Calculator App
 
 This is a React JS demo calculator app built to demonstrate my working knowledge of React JS.
 
