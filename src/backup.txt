@@ -1,0 +1,3 @@
+                <form name="calcDisplay">
+                   <input type="text" className="display-text" name="displayResult"/>
+                </form>
