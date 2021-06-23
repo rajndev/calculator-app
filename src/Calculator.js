@@ -39,7 +39,10 @@ class Calculator extends Component {
     return (
       <div className="container">
         <Display value={this.state.displayValue}/>
-        <Keypad onKeyClick={i => this.handleKeyClick(i)} onEqualsKeyClick={() => this.handleEqualsClick()} onClearKeyClick={() => this.handleClearClick()} onBackKeyClick={() => this.handleBackClick()}/>
+        <Keypad onKeyClick={i => this.handleKeyClick(i)} 
+                onEqualsKeyClick={() => this.handleEqualsClick()} 
+                onClearKeyClick={() => this.handleClearClick()} 
+                onBackKeyClick={() => this.handleBackClick()}/>
       </div>
     )
   }
