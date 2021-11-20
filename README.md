@@ -1,6 +1,6 @@
-# React JS Demo Calculator App
+# React Demo Calculator App
 
-This is a React JS demo calculator app built to demonstrate my working knowledge of React JS.
+This is a demo calculator app built to demonstrate my working knowledge of React.
 
 # Screenshot
 
@@ -10,6 +10,6 @@ This is a React JS demo calculator app built to demonstrate my working knowledge
 
 ## Technology Stacks Used
 
-React JS version 17.0.2, mathjs library, HTML5, CSS3.
+React version 17.0.2, mathjs library, HTML5, CSS3.
 
 
