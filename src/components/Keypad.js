@@ -24,7 +24,7 @@ class Keypad extends Component {
                     <Key keyValue="1" style="key" onClick={() => this.props.onKeyClick(1)}/>
                     <Key keyValue="2" style="key" onClick={() => this.props.onKeyClick(2)}/>
                     <Key keyValue="3" style="key" onClick={() => this.props.onKeyClick(3)}/>
-                    <Key keyValue="/" style="key operator" onClick={() => this.props.onKeyClick("/")}/>
+                    <Key keyValue="/" style="key operator" onClick={() => this.props.onKeyClick("÷")}/>
 
                     <Key keyValue="0" style="key" onClick={() => this.props.onKeyClick(0)}/>
                     <Key keyValue="." style="key" onClick={() => this.props.onKeyClick(".")}/>
