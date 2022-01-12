@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Display from './components/Display'
-import Keypad from './components/Keypad'
+import Display from './Display'
+import Keypad from './Keypad'
 import * as math from 'mathjs'
 
 class Calculator extends Component {

@@ -5,7 +5,7 @@ This is a demo calculator app built to demonstrate my working knowledge of React
 # Screenshot
 
 <p align="center">
-  <img width=401 src="src/screenshots/calc_screenshot.png">
+  <img width=401 src="screenshots/calc.png">
 </p>
 
 ## Technology Stacks Used
