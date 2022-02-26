@@ -29,7 +29,12 @@ html {
 textarea {
   width: 316px;
   height: 110px;
-  background: #ff0509;
+  color: white;
+  background: none;
+  text-align: right;
+  font-weight: 200;
+  font-size: 30px;
+  line-height: 60px;
   resize: none;
   border: none;
 }
