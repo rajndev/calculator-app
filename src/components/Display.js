@@ -4,7 +4,7 @@ class Display extends Component {
     render() {
         return (
             <div className="display">
-                    <input type="text" value={this.props.dispValue} /> 
+                <textarea value={this.props.dispValue} rows={5} cols={5} /> 
             </div>
         )
     }
