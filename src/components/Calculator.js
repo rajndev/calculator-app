@@ -12,7 +12,12 @@ class Calculator extends Component {
   }
 
   handleKeyClick(i) {
-    this.setState({displayValue: this.state.displayValue + i});
+    if(this.state.displayValue.length == 12){
+      alert("You can't enter more than 5 digits!");
+    }
+    else {
+      this.setState({displayValue: this.state.displayValue + i});
+    } 
   }
 
   handleEqualsClick() {
@@ -38,7 +43,7 @@ class Calculator extends Component {
   render() {
     return (
       <div className="container">
-        <Display value={this.state.displayValue}/>
+        <Display dispValue={this.state.displayValue}/>
         <Keypad onKeyClick={i => this.handleKeyClick(i)} 
                 onEqualsKeyClick={() => this.handleEqualsClick()} 
                 onClearKeyClick={() => this.handleClearClick()} 
