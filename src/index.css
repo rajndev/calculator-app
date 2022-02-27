@@ -3,6 +3,7 @@ html {
   background: #ecedef;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .container {
@@ -19,7 +20,6 @@ html {
 
 .display {
   display: flex;
-  justify-content: center;
   align-items: center;
   width: 100%;
   height: 50px;
@@ -27,6 +27,25 @@ html {
   background: #ff0509;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
+}
+/* 
+div[contenteditable] {
+  height: calc(8vh);
+  width: 300px;
+  color: white;
+  font-size: 40px;
+  overflow: hidden;
+}
+ */
+div .ff {
+  height: 6em;
+  width: 300px;
+  border: 1px solid;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .textarea {

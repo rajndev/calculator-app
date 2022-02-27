@@ -7,28 +7,34 @@ class Calculator extends Component {
   constructor(props){
     super(props);
     this.state = {
+     // runningValue: "",
       displayValue: "",
     };
   }
 
   handleKeyClick(i) {
-    if(this.state.displayValue.length == 1000){
-      alert("You can't enter more than 19 digits!");
+    this.setState({displayValue: this.state.displayValue.concat(i)});
+
+    if(this.state.displayValue != ""){
+      let fdsa = this.state.displayValue.length % 2
+      if(fdsa == 0){
+        this.setState({displayValue: this.state.displayValue.concat(i + '\n')});
+      }
     }
-    else {
-      this.setState({displayValue: this.state.displayValue + i});
-    } 
   }
 
   handleEqualsClick() {
+    
+    let trimmed = this.state.displayValue.replace(/[\n\r]+/g, '')
     let result;
+
     try {
-      result = math.evaluate(this.state.displayValue);
+      result = math.evaluate(trimmed);
     }
     catch{
        return; 
     }
-    this.setState({displayValue: result.toString()});
+    this.setState({displayValue: result});
   }
 
   handleClearClick() {
