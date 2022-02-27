@@ -12,7 +12,7 @@ class Calculator extends Component {
   }
 
   handleKeyClick(i) {
-    if(this.state.displayValue.length == 19){
+    if(this.state.displayValue.length == 1000){
       alert("You can't enter more than 19 digits!");
     }
     else {
