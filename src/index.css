@@ -38,9 +38,11 @@ div[contenteditable] {
 }
  */
 div .ff {
-  height: 6em;
+  height: 100px;
   width: 300px;
-  border: 1px solid;
+  font-size: 30px;
+  border: 1px solid black;
+  color: white;
   padding: 10px;
   display: flex;
   justify-content: flex-end;
