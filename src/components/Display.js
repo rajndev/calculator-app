@@ -26,7 +26,7 @@ class Display extends Component {
                     {this.props.result}
                 </div>
                 <div className='ff'>
-                    <input type="text" className="user-inputs" ref={this.props.inputRef} onChange={this.props.onInputChange} />
+                    <input type="text" className="user-inputs" value={this.props.value} ref={this.props.inputRef} onChange={this.props.onInputChange} />
                 </div>
             </div>
         )

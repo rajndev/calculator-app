@@ -7,16 +7,18 @@ class Calculator extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //  displayValue: "",
             runningValue: "",
-            calcResult: 0
+            calcResult: 0,
+            event: ""
         };
         this.inputFieldRef = React.createRef(null);
     }
 
     handleKeyClick(i) {
-        //this.setState({runningValue: this.state.runningValue.concat(i)});
-        // console.log(this.state.runningValue);
+        let cursorPosition = this.state.event.target.selectionStart
+        let textBeforeCursorPosition = this.state.event.target.value.substring(0, cursorPosition)
+        let textAfterCursorPosition = this.state.event.target.value.substring(cursorPosition, this.state.event.target.value.length)
+        this.setState({ runningValue: textBeforeCursorPosition + i + textAfterCursorPosition });
     }
 
     setInputRef(inputFieldRef) {
@@ -24,17 +26,8 @@ class Calculator extends Component {
     }
 
     handleInputChange(event) {
-        /* let inputText = event.target.value;
-         let cursorPosition = event.target.selectionStart
-         let textBeforeCursorPosition = event.target.value.substring(0, cursorPosition)
-         let textAfterCursorPosition = event.target.value.substring(cursorPosition, event.target.value.length)
-         this.setState({ runningValue: textBeforeCursorPosition + inputText + textAfterCursorPosition })
-
-         console.log(this.state.runningValue);*/
-
-        // console.log(this.inputFieldRef.current.value)
-
         //note to self: setState is asynchronous
+        this.setState({ event: event })
         this.setState({ runningValue: this.inputFieldRef.current.value });
     }
 
@@ -61,10 +54,9 @@ class Calculator extends Component {
     }
 
     render() {
-        // console.log(this.state.runningValue);
         return (
             <div className="container">
-                <Display result={this.state.calcResult} inputRef={this.inputFieldRef} onInputChange={(event) => this.handleInputChange(event)} />
+                <Display result={this.state.calcResult} value={this.state.runningValue} inputRef={this.inputFieldRef} onInputChange={(event) => this.handleInputChange(event)} />
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
                     onClearKeyClick={() => this.handleClearClick()}
