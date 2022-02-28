@@ -19,15 +19,23 @@ class Calculator extends Component {
         // console.log(this.state.runningValue);
     }
 
-    setInputRef(inputRef) {
-        this.setState({ inputRef: inputRef.current });
+    setInputRef(inputFieldRef) {
+        this.setState({ inputRef: inputFieldRef.current });
     }
 
-    handleInputChange() {
-        console.log(this.inputFieldRef.current.value)
-        // let homer = this.textInput.value;
-        // this.setState({ runningValue: homer });
-        //console.log(this.state.runningValue);
+    handleInputChange(event) {
+        /* let inputText = event.target.value;
+         let cursorPosition = event.target.selectionStart
+         let textBeforeCursorPosition = event.target.value.substring(0, cursorPosition)
+         let textAfterCursorPosition = event.target.value.substring(cursorPosition, event.target.value.length)
+         this.setState({ runningValue: textBeforeCursorPosition + inputText + textAfterCursorPosition })
+
+         console.log(this.state.runningValue);*/
+
+        // console.log(this.inputFieldRef.current.value)
+
+        //note to self: setState is asynchronous
+        this.setState({ runningValue: this.inputFieldRef.current.value });
     }
 
     handleEqualsClick() {
@@ -37,8 +45,6 @@ class Calculator extends Component {
         try {
             result = math.evaluate(running);
             this.setState({ calcResult: result });
-            // console.log(calcResult);
-            //this.setState({result: result});
         }
         catch {
             return;
@@ -55,9 +61,10 @@ class Calculator extends Component {
     }
 
     render() {
+        // console.log(this.state.runningValue);
         return (
             <div className="container">
-                <Display result={this.state.calcResult} inputRef={this.inputFieldRef} onInputChange={() => this.handleInputChange()} />
+                <Display result={this.state.calcResult} inputRef={this.inputFieldRef} onInputChange={(event) => this.handleInputChange(event)} />
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
                     onClearKeyClick={() => this.handleClearClick()}
