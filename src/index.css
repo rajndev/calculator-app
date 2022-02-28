@@ -34,7 +34,7 @@ html {
   font-size: 50px;
   font-weight: bolder;
   color: #e4c370;
-  align-self: end;
+  align-self: start;
   margin-bottom: 11px;
   padding-right: 10px;
 }
@@ -48,8 +48,7 @@ input.user-inputs {
   border: 1px solid;
   background-color: #ff0509;
   font-weight: bold;
-  text-align: right;
-  overflow-x: visible;
+  text-align: left;
 }
 
 .textarea {

@@ -8,7 +8,7 @@ class Display extends Component {
                     108
                 </div>
                 <div className='ff'>
-                    <input type="text" className="user-inputs" value={this.props.dispValue || 0} />
+                    <input type="text" className="user-inputs"/>
                 </div>
             </div>
         )
