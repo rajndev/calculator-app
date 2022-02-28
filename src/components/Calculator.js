@@ -7,28 +7,28 @@ class Calculator extends Component {
   constructor(props){
     super(props);
     this.state = {
-     displayValue: ""
+     displayValue: "",
     };
   }
 
   handleKeyClick(i) {
     this.setState({displayValue: this.state.displayValue.concat(i)});
 
-    if(this.state.displayValue != ""){
+   /*  if(this.state.displayValue != ""){
       let fdsa = this.state.displayValue.length % 2
       if(fdsa == 0){
         this.setState({displayValue: this.state.displayValue.concat(i + '\n')});
-      }
-    }
+      } */
+    
   }
 
   handleEqualsClick() {
     
-    let trimmed = this.state.displayValue.replace(/[\n\r]+/g, '')
+    //let trimmed = this.state.displayValue.replace(/[\n\r]+/g, '')
     let result;
 
     try {
-      result = math.evaluate(trimmed);
+      result = math.evaluate(this.state.displayValue);
     }
     catch{
        return; 
