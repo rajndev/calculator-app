@@ -8,30 +8,56 @@ class Calculator extends Component {
         super(props);
         this.state = {
             runningValue: "",
-            calcResult: 0,
-            event: ""
+            cursorPos: {start: 0, end: 0},
         };
         this.inputFieldRef = React.createRef(null);
+        this.calcResult = 0;
+        this.event = "";
+        this.selected = false;
     }
 
-    handleKeyClick(i) {
-        let cursorPosition = this.state.event.target.selectionStart
-        let textBeforeCursorPosition = this.state.event.target.value.substring(0, cursorPosition)
-        let textAfterCursorPosition = this.state.event.target.value.substring(cursorPosition, this.state.event.target.value.length)
-        this.setState({ runningValue: textBeforeCursorPosition + i + textAfterCursorPosition });
+    handleKeyClick = (key) => {
+        if(this.state.runningValue === "" || (this.state.runningValue.length >= 1 && !this.state.selected)){
+            this.setState(prevState => ({
+                runningValue: prevState.runningValue.concat(key)
+            }));
+        }
+        else {
+            let cursorPosition = this.state.cursorPos.start;
+            let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+            let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+            let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+            this.setState(prevState => ({
+                runningValue: updatedText
+            }));
+            this.setState(prevState => ({
+                cursorPos: {
+                  start: prevState.cursorPos.start + 1,
+                  end: prevState.cursorPos.end + 1
+                }
+              }));
+        }
     }
 
-    setInputRef(inputFieldRef) {
-        this.setState({ inputRef: inputFieldRef.current });
-    }
-
-    handleInputChange(event) {
+    handleInputChange = () => {
         //note to self: setState is asynchronous
-        this.setState({ event: event })
-        this.setState({ runningValue: this.inputFieldRef.current.value });
+        this.setState(prevState => ({
+            runningValue: this.inputFieldRef.current.value
+        }));
     }
 
-    handleEqualsClick() {
+    handleSelect = (event) => {
+        this.setState(prevState => ({
+            cursorPos: {
+              start: event.target.selectionStart,
+              end: event.target.selectionEnd
+            }
+          }));
+
+          this.setState({selected: true});
+    }
+
+    handleEqualsClick = () => {
         let result = 0;
         let running = this.state.runningValue;
 
@@ -44,11 +70,11 @@ class Calculator extends Component {
         }
     }
 
-    handleClearClick() {
+    handleClearClick = () => {
         this.setState({ runningValue: "" });
     }
 
-    handleBackClick() {
+    handleBackClick = () => {
         let sliced = this.state.runningValue.slice(0, -1);
         this.setState({ runningValue: sliced });
     }
@@ -56,7 +82,7 @@ class Calculator extends Component {
     render() {
         return (
             <div className="container">
-                <Display result={this.state.calcResult} value={this.state.runningValue} inputRef={this.inputFieldRef} onInputChange={(event) => this.handleInputChange(event)} />
+                <Display result={this.state.calcResult} value={this.state.runningValue} inputRef={this.inputFieldRef} onInputChange={() => this.handleInputChange()} onSelect={(event => this.handleSelect(event))}/>
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
                     onClearKeyClick={() => this.handleClearClick()}
