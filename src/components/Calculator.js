@@ -10,7 +10,7 @@ class Calculator extends Component {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
         };
-        this.inputFieldRef = React.createRef(null);
+        this.inputRef = React.createRef(null);
         this.calcResult = 0;
         this.event = "";
         this.selected = false;
@@ -42,7 +42,7 @@ class Calculator extends Component {
     handleInputChange = () => {
         //note to self: setState is asynchronous
         this.setState({
-            runningValue: this.inputFieldRef.current.value
+            runningValue: this.inputRef.current.value
         });
     }
 
@@ -82,7 +82,12 @@ class Calculator extends Component {
     render() {
         return (
             <div className="container">
-                <Display result={this.state.calcResult} value={this.state.runningValue} inputRef={this.inputFieldRef} onInputChange={() => this.handleInputChange()} onSelect={(event => this.handleSelect(event))}/>
+                <Display result={this.state.calcResult}
+                inputRef={this.inputRef}
+                value={this.state.runningValue} 
+                onInputChange={() => this.handleInputChange()} 
+                onSelect={(event => this.handleSelect(event))}/>
+
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
                     onClearKeyClick={() => this.handleClearClick()}
