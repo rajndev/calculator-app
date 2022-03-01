@@ -49,6 +49,7 @@ input.user-inputs {
   background-color: #ff0509;
   font-weight: bold;
   text-align: left;
+  /* direction: ltr; */
 }
 
 .textarea {
@@ -56,7 +57,7 @@ input.user-inputs {
   height: 110px;
   color: white;
   background: none;
-  text-align: left;
+  text-align: right;
   font-size: 46px;
   line-height: 40px;
   padding: 10px;
