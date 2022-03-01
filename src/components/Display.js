@@ -8,7 +8,7 @@ class Display extends Component {
                     {this.props.result}
                 </div>
                 <div className='ff'>
-                    <input type="text" className="user-inputs" value={this.props.value} ref={this.props.inputRef} onChange={this.props.onInputChange} onSelect={this.props.onSelect} />
+                    <textarea type="text" className="user-inputs" value={this.props.value} ref={this.props.inputRef} onChange={this.props.onInputChange} onSelect={this.props.onSelect} />
                 </div>
             </div>
         )
