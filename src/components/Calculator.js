@@ -41,18 +41,18 @@ class Calculator extends Component {
 
     handleInputChange = () => {
         //note to self: setState is asynchronous
-        this.setState(prevState => ({
+        this.setState({
             runningValue: this.inputFieldRef.current.value
-        }));
+        });
     }
 
     handleSelect = (event) => {
-        this.setState(prevState => ({
+        this.setState({
             cursorPos: {
               start: event.target.selectionStart,
               end: event.target.selectionEnd
             }
-          }));
+          });
 
           this.setState({selected: true});
     }
