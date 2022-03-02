@@ -22,9 +22,6 @@ class Display extends Component {
     render() {
         return (
             <div className="display">
-                <div className='result'>
-                    {this.props.result}
-                </div>
                 <div>
                     <textarea type="text" className="user-inputs" value={this.props.value} ref={this.textareaRef} onChange={() => this.props.onInputChange(this.textareaRef)} onSelect={this.props.onSelect} />
                 </div>

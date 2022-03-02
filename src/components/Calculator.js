@@ -11,7 +11,6 @@ class Calculator extends Component {
             cursorPos: {start: 0, end: 0},
             selected: false
         };
-        this.calcResult = 0;
     }
 
     handleKeyClick = (key) => {
@@ -22,13 +21,6 @@ class Calculator extends Component {
             this.setState(prevState => ({
                 runningValue: prevState.runningValue.concat(key)
             }));
-            
-            // let running = this.state.runningValue;
-            // let result = math.evaluate(running);
-
-            // this.setState({
-            //     calcResult: result  
-            // });
         }
         else {
                 let cursorPosition = this.state.cursorPos.start;
@@ -44,13 +36,6 @@ class Calculator extends Component {
                     end: prevState.cursorPos.end + 1
                     }
                 }));
-                
-                // let running = this.state.runningValue;
-                // let result = math.evaluate(running);
-
-                // this.setState({
-                //     calcResult: result
-                // })
             }
     }
 
@@ -80,7 +65,7 @@ class Calculator extends Component {
         try {
             result = math.evaluate(running);
             this.setState({ runningValue: result.toString() });
-            this.setState({ selected: true });
+            this.setState({ selected: false });
             
             let newCursorPos = this.state.runningValue.length - 1;
             this.setState({
@@ -108,7 +93,6 @@ class Calculator extends Component {
         return (
             <div className="container">
                 <Display 
-                result={this.state.calcResult}
                 value={this.state.runningValue} 
                 onInputChange={(ref) => this.handleInputChange(ref)} 
                 onSelect={(event => this.handleSelect(event))}/>
