@@ -53,10 +53,8 @@ html {
 } */
 
 textarea.user-inputs {
-  width: 97%;
-  height: 100px;
   font-size: 37px;
-  padding-left: 5px;
+  padding: 5px;
   color: whitesmoke;
   border: 1px solid;
   background-color: #ff0509;
@@ -76,6 +74,14 @@ textarea.user-inputs {
   padding: 10px;
   resize: none;
   border: none;
+} */
+
+/* div[contenteditable] {
+  min-height: 100px;
+  border: 1px solid;
+  font-size: 30px;
+  text-overflow: clip; 
+  overflow-y: scroll;
 } */
 
 .keys {

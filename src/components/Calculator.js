@@ -10,10 +10,24 @@ class Calculator extends Component {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
         };
-        this.inputRef = React.createRef(null);
+       // this.inputRef = React.createRef(null);
         this.calcResult = 0;
         this.event = "";
         this.selected = false;
+    }
+
+    componentDidMount() {
+        //this.inputRef.current.scrollIntoView({ behavior: "smooth" })
+        //this.scrollToBottom()
+        //this.inputRef.current.scrollTop = this.inputRef.scrollHeight;
+    }
+
+    componentDidUpdate () {
+        //this.scrollToBottom()
+    }
+
+    scrollToBottom = () => {
+        //this.inputRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     handleKeyClick = (key) => {
@@ -37,13 +51,16 @@ class Calculator extends Component {
                 }
               }));
         }
+
     }
 
-    handleInputChange = () => {
+    handleInputChange = (inputRef) => {
         //note to self: setState is asynchronous
         this.setState({
-            runningValue: this.inputRef.current.value
+            runningValue: inputRef.current.value
         });
+
+        
     }
 
     handleSelect = (event) => {
@@ -83,9 +100,9 @@ class Calculator extends Component {
         return (
             <div className="container">
                 <Display result={this.state.calcResult}
-                inputRef={this.inputRef}
+                //inputRef={this.inputRef}
                 value={this.state.runningValue} 
-                onInputChange={() => this.handleInputChange()} 
+                onInputChange={(ref) => this.handleInputChange(ref)} 
                 onSelect={(event => this.handleSelect(event))}/>
 
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
