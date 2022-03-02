@@ -12,6 +12,8 @@ class Calculator extends Component {
             selected: false,
             parentheses: "" 
         };
+
+        this.textareaRef = React.createRef(null);
     }
 
     handleKeyClick = (key) => {
@@ -31,6 +33,10 @@ class Calculator extends Component {
                 this.setState(prevState => ({
                     runningValue: prevState.runningValue.concat(key)
                 }));
+
+                if(this.textareaRef != null){
+                    this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
+                  }
         }
         else {
                 let cursorPosition = this.state.cursorPos.start;
@@ -46,14 +52,16 @@ class Calculator extends Component {
                     end: prevState.cursorPos.end + 1
                     }
                 }));
+                if(this.textareaRef != null){
+                    this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
+                  }            
             }
     }
 
-    handleInputChange = (inputRef) => {
+    handleInputChange = (event) => {
         this.setState({
-            runningValue: inputRef.current.value
+            runningValue: event.current.value
         });
-
         
     }
 
@@ -111,13 +119,18 @@ class Calculator extends Component {
         }
     }
 
+    getTextareaRef = (ref) => {
+        this.textareaRef = ref;
+    }
+
     render() {
         return (
             <div className="container">
                 <Display 
                 value={this.state.runningValue} 
                 onInputChange={(ref) => this.handleInputChange(ref)} 
-                onSelect={(event => this.handleSelect(event))}/>
+                onSelect={(event => this.handleSelect(event))}
+                getTextareaRef={(ref) => this.getTextareaRef(ref)}/>
 
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}

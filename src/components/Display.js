@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import $ from "jquery"
 
 class Display extends Component {
     constructor(props){
@@ -7,23 +8,14 @@ class Display extends Component {
     }
     
     componentDidMount () {
-        this.scrollToBottom();
-
-    }
-      componentDidUpdate () {
-        this.scrollToBottom();
-    }
-      scrollToBottom = () => {
-          if(this.textareaRef != null){
-              this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
-            }
+        this.props.getTextareaRef(this.textareaRef);
     }
 
     render() {
         return (
             <div className="display">
                 <div>
-                    <textarea type="text" className="user-inputs" value={this.props.value} ref={this.textareaRef} onChange={() => this.props.onInputChange(this.textareaRef)} onSelect={this.props.onSelect} />
+                    <textarea type="text" id="user-inputs" className="user-inputs" value={this.props.value} ref={this.textareaRef} onChange={() => this.props.onInputChange()} onSelect={this.props.onSelect}/>
                 </div>
             </div>
         )
