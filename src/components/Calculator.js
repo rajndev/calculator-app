@@ -127,10 +127,10 @@ class Calculator extends Component {
         return (
             <div className="container">
                 <Display 
-                value={this.state.runningValue} 
-                onInputChange={(ref) => this.handleInputChange(ref)} 
-                onSelect={(event => this.handleSelect(event))}
-                getTextareaRef={(ref) => this.getTextareaRef(ref)}/>
+                    value={this.state.runningValue} 
+                    onInputChange={(ref) => this.handleInputChange(ref)} 
+                    onSelect={(event => this.handleSelect(event))}
+                    getTextareaRef={(ref) => this.getTextareaRef(ref)}/>
 
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
