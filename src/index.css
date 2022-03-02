@@ -53,13 +53,17 @@ html {
 } */
 
 textarea.user-inputs {
-  font-size: 37px;
+  width: 96%;
+  height: 95px;
+  font-size: 38px;
   padding: 5px;
   color: whitesmoke;
-  border: 1px solid;
+  border: none;
   background-color: #ff0509;
   font-weight: bold;
   text-align: left;
+  resize: none;
+  overflow-y: hidden;
   /* direction: ltr; */
 }
 

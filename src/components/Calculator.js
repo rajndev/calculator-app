@@ -9,53 +9,52 @@ class Calculator extends Component {
         this.state = {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
+            selected: false
         };
-       // this.inputRef = React.createRef(null);
         this.calcResult = 0;
-        this.event = "";
-        this.selected = false;
-    }
-
-    componentDidMount() {
-        //this.inputRef.current.scrollIntoView({ behavior: "smooth" })
-        //this.scrollToBottom()
-        //this.inputRef.current.scrollTop = this.inputRef.scrollHeight;
-    }
-
-    componentDidUpdate () {
-        //this.scrollToBottom()
-    }
-
-    scrollToBottom = () => {
-        //this.inputRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     handleKeyClick = (key) => {
-        if(this.state.runningValue === "" || (this.state.runningValue.length >= 1 && !this.state.selected)){
+        let runningValueIsEmpty = this.state.runningValue.length === 0;
+        let selectedStateIsFalse = this.state.selected === false;
+
+        if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
             this.setState(prevState => ({
                 runningValue: prevState.runningValue.concat(key)
             }));
+            
+            // let running = this.state.runningValue;
+            // let result = math.evaluate(running);
+
+            // this.setState({
+            //     calcResult: result  
+            // });
         }
         else {
-            let cursorPosition = this.state.cursorPos.start;
-            let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
-            let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
-            let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
-            this.setState(prevState => ({
-                runningValue: updatedText
-            }));
-            this.setState(prevState => ({
-                cursorPos: {
-                  start: prevState.cursorPos.start + 1,
-                  end: prevState.cursorPos.end + 1
-                }
-              }));
-        }
+                let cursorPosition = this.state.cursorPos.start;
+                let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+                let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+                let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+                this.setState(prevState => ({
+                    runningValue: updatedText
+                }));
+                this.setState(prevState => ({
+                    cursorPos: {
+                    start: prevState.cursorPos.start + 1,
+                    end: prevState.cursorPos.end + 1
+                    }
+                }));
+                
+                // let running = this.state.runningValue;
+                // let result = math.evaluate(running);
 
+                // this.setState({
+                //     calcResult: result
+                // })
+            }
     }
 
     handleInputChange = (inputRef) => {
-        //note to self: setState is asynchronous
         this.setState({
             runningValue: inputRef.current.value
         });
@@ -80,7 +79,16 @@ class Calculator extends Component {
 
         try {
             result = math.evaluate(running);
-            this.setState({ calcResult: result });
+            this.setState({ runningValue: result.toString() });
+            this.setState({ selected: true });
+            
+            let newCursorPos = this.state.runningValue.length - 1;
+            this.setState({
+                cursorPos: {
+                start: newCursorPos,
+                end: newCursorPos
+                }
+            });
         }
         catch {
             return;
@@ -99,8 +107,8 @@ class Calculator extends Component {
     render() {
         return (
             <div className="container">
-                <Display result={this.state.calcResult}
-                //inputRef={this.inputRef}
+                <Display 
+                result={this.state.calcResult}
                 value={this.state.runningValue} 
                 onInputChange={(ref) => this.handleInputChange(ref)} 
                 onSelect={(event => this.handleSelect(event))}/>

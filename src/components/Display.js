@@ -7,25 +7,26 @@ class Display extends Component {
     }
     
     componentDidMount () {
-        console.log("Mounted!");
         this.scrollToBottom();
 
     }
       componentDidUpdate () {
-        console.log("DidUpdate!");
         this.scrollToBottom();
     }
       scrollToBottom = () => {
           if(this.textareaRef != null){
               this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
-          }
+            }
     }
 
     render() {
         return (
             <div className="display">
+                <div className='result'>
+                    {this.props.result}
+                </div>
                 <div>
-                    <textarea type="text" className="user-inputs" cols="15" rows="2" value={this.props.value} ref={this.textareaRef} onChange={() => this.props.onInputChange(this.textareaRef)} onSelect={this.props.onSelect} />
+                    <textarea type="text" className="user-inputs" value={this.props.value} ref={this.textareaRef} onChange={() => this.props.onInputChange(this.textareaRef)} onSelect={this.props.onSelect} />
                 </div>
             </div>
         )
