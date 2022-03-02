@@ -9,6 +9,10 @@ class Display extends Component {
     
     componentDidMount () {
         this.props.getTextareaRef(this.textareaRef);
+        $("#user-inputs").on('keypress', function(event) {
+            event.preventDefault();
+            return false;
+        });
     }
 
     render() {
