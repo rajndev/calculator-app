@@ -9,7 +9,8 @@ class Calculator extends Component {
         this.state = {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
-            selected: false
+            selected: false,
+            parentheses: "" 
         };
     }
 
@@ -17,10 +18,19 @@ class Calculator extends Component {
         let runningValueIsEmpty = this.state.runningValue.length === 0;
         let selectedStateIsFalse = this.state.selected === false;
 
+        if(key === "()"){
+            if(this.state.runningValue === ""){
+                return;
+            }
+            else {
+                key = this.getNewParentheses();
+            }
+        }
+
         if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
-            this.setState(prevState => ({
-                runningValue: prevState.runningValue.concat(key)
-            }));
+                this.setState(prevState => ({
+                    runningValue: prevState.runningValue.concat(key)
+                }));
         }
         else {
                 let cursorPosition = this.state.cursorPos.start;
@@ -82,11 +92,23 @@ class Calculator extends Component {
 
     handleClearClick = () => {
         this.setState({ runningValue: "" });
+        this.setState({ parentheses: "" });
     }
 
     handleBackClick = () => {
         let sliced = this.state.runningValue.slice(0, -1);
         this.setState({ runningValue: sliced });
+    }
+
+    getNewParentheses = () => {
+        if(this.state.parentheses === "("){
+            this.setState({parentheses: ")"});
+            return ")";
+        }
+        else{
+            this.setState({parentheses: "("});
+            return "(";
+        }
     }
 
     render() {
