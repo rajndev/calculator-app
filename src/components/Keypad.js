@@ -6,9 +6,10 @@ class Keypad extends Component {
         return (
             <div className="keys">
                 <div className="row">
-                <Key keyValue="C" styleProp="key helper" onClick={() => this.props.onClearKeyClick("C")}/>
-                    <Key keyValue="(" styleProp="key helper" onClick={() => this.props.onKeyClick("(")}/>
-                    <Key keyValue=")" styleProp="key helper" onClick={() => this.props.onKeyClick(")")}/>
+                    <Key keyValue="C" styleProp="key helper" onClick={() => this.props.onClearKeyClick("C")}/>
+                    <Key keyValue="±" styleProp="key helper" onClick={() => this.props.onKeyClick("-")}/>
+                    <Key keyValue="( )" styleProp="key helper" onClick={() => this.props.onKeyClick("()")}/>
+                  
                     <Key keyValue="+" styleProp="key operator" onClick={() => this.props.onKeyClick("+")}/>
 
                     <Key keyValue="7" styleProp="key" onClick={() => this.props.onKeyClick(7)}/>

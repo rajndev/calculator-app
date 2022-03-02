@@ -22,6 +22,7 @@ html {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 50px;
   padding: 40px 0;
@@ -39,7 +40,7 @@ html {
   padding-left: 7px;
 }
 
-input.user-inputs {
+/* input.user-inputs {
   width: 97%;
   height: 32px;
   font-size: 37px;
@@ -49,10 +50,26 @@ input.user-inputs {
   background-color: #ff0509;
   font-weight: bold;
   text-align: left;
+  direction: ltr;
+} */
+
+textarea.user-inputs {
+  max-width: 310px;
+  height: 95px;
+  font-size: 38px;
+  /* line-height: 35px; */
+  padding-left: 5px;
+  color: whitesmoke;
+  border: none;
+  background-color: #ff0509;
+  font-weight: bold;
+  text-align: left;
+  resize: none;
+  overflow-y: hidden;
   /* direction: ltr; */
 }
 
-.textarea {
+/* .textarea {
   width: 316px;
   height: 110px;
   color: white;
@@ -63,7 +80,15 @@ input.user-inputs {
   padding: 10px;
   resize: none;
   border: none;
-}
+} */
+
+/* div[contenteditable] {
+  min-height: 100px;
+  border: 1px solid;
+  font-size: 30px;
+  text-overflow: clip; 
+  overflow-y: scroll;
+} */
 
 .keys {
   padding: 20px 20px 0 20px;

@@ -9,50 +9,61 @@ class Calculator extends Component {
         this.state = {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
+            selected: false,
+            parentheses: "" 
         };
-        this.inputFieldRef = React.createRef(null);
-        this.calcResult = 0;
-        this.event = "";
-        this.selected = false;
     }
 
     handleKeyClick = (key) => {
-        if(this.state.runningValue === "" || (this.state.runningValue.length >= 1 && !this.state.selected)){
-            this.setState(prevState => ({
-                runningValue: prevState.runningValue.concat(key)
-            }));
+        let runningValueIsEmpty = this.state.runningValue.length === 0;
+        let selectedStateIsFalse = this.state.selected === false;
+
+        if(key === "()"){
+            if(this.state.runningValue === ""){
+                return;
+            }
+            else {
+                key = this.getNewParentheses();
+            }
+        }
+
+        if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
+                this.setState(prevState => ({
+                    runningValue: prevState.runningValue.concat(key)
+                }));
         }
         else {
-            let cursorPosition = this.state.cursorPos.start;
-            let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
-            let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
-            let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
-            this.setState(prevState => ({
-                runningValue: updatedText
-            }));
-            this.setState(prevState => ({
-                cursorPos: {
-                  start: prevState.cursorPos.start + 1,
-                  end: prevState.cursorPos.end + 1
-                }
-              }));
-        }
+                let cursorPosition = this.state.cursorPos.start;
+                let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+                let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+                let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+                this.setState(prevState => ({
+                    runningValue: updatedText
+                }));
+                this.setState(prevState => ({
+                    cursorPos: {
+                    start: prevState.cursorPos.start + 1,
+                    end: prevState.cursorPos.end + 1
+                    }
+                }));
+            }
     }
 
-    handleInputChange = () => {
-        //note to self: setState is asynchronous
-        this.setState(prevState => ({
-            runningValue: this.inputFieldRef.current.value
-        }));
+    handleInputChange = (inputRef) => {
+        this.setState({
+            runningValue: inputRef.current.value
+        });
+
+        
     }
 
     handleSelect = (event) => {
-        this.setState(prevState => ({
+        this.setState({
             cursorPos: {
               start: event.target.selectionStart,
               end: event.target.selectionEnd
             }
-          }));
+          });
 
           this.setState({selected: true});
     }
@@ -63,7 +74,16 @@ class Calculator extends Component {
 
         try {
             result = math.evaluate(running);
-            this.setState({ calcResult: result });
+            this.setState({ runningValue: result.toString() });
+            this.setState({ selected: false });
+            
+            let newCursorPos = this.state.runningValue.length - 1;
+            this.setState({
+                cursorPos: {
+                start: newCursorPos,
+                end: newCursorPos
+                }
+            });
         }
         catch {
             return;
@@ -72,6 +92,7 @@ class Calculator extends Component {
 
     handleClearClick = () => {
         this.setState({ runningValue: "" });
+        this.setState({ parentheses: "" });
     }
 
     handleBackClick = () => {
@@ -79,10 +100,25 @@ class Calculator extends Component {
         this.setState({ runningValue: sliced });
     }
 
+    getNewParentheses = () => {
+        if(this.state.parentheses === "("){
+            this.setState({parentheses: ")"});
+            return ")";
+        }
+        else{
+            this.setState({parentheses: "("});
+            return "(";
+        }
+    }
+
     render() {
         return (
             <div className="container">
-                <Display result={this.state.calcResult} value={this.state.runningValue} inputRef={this.inputFieldRef} onInputChange={() => this.handleInputChange()} onSelect={(event => this.handleSelect(event))}/>
+                <Display 
+                value={this.state.runningValue} 
+                onInputChange={(ref) => this.handleInputChange(ref)} 
+                onSelect={(event => this.handleSelect(event))}/>
+
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
                     onClearKeyClick={() => this.handleClearClick()}
