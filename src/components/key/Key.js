@@ -3,7 +3,6 @@ import './key.css'
 
 class Key extends Component {
     render() {
-        
         return (
             <button className={this.props.styleProp} onClick={this.props.onClick}>
                 {this.props.keyValue}
