@@ -30,12 +30,12 @@ class Calculator extends Component {
                 else{
                     key = this.getNextParentheses();
                 }
-                this.setState(prevState => ({
-                    parenthesesCount: prevState + 1
-                }));
+                this.setState(prevState => {
+                    return {parenthesesCount: prevState.parenthesesCount + 1}
+                });
             }
 
-            console.log(this.state.parentheses);
+           // console.log(this.state.parentheses);
             
             //prevent use of modulus key if display is empty
             if(key === "%" && runningValueIsEmpty){
@@ -84,18 +84,21 @@ class Calculator extends Component {
             let trailingChar = textBeforeCursorPosition[textBeforeCursorPosition.length - 1];
 
             console.log(trailingChar);
-            if(trailingChar === "("){ 
-                this.setState({parentheses: "("});
-                this.setState({parenthesesDeleted: true});
+            if(trailingChar === "(" || trailingChar === ")"){
+                if(trailingChar === "("){
+                    this.setState({parentheses: "("});
+                    this.setState({parenthesesDeleted: true});
+                }
+                else if(trailingChar === ")"){
+                    this.setState({parentheses: ")"});
+                    this.setState({parenthesesDeleted: true});
+                }
+                this.setState(prevState => {
+                    if(this.state.parenthesesCount !== 0){
+                        return {parenthesesCount: prevState.parenthesesCount - 1}
+                    }
+                });
             }
-            else if(trailingChar === ")"){
-                this.setState({parentheses: ")"});
-                this.setState({parenthesesDeleted: true});
-            }
-
-            this.setState(prevState => ({
-                parenthesesCount: prevState - 1
-            }));
 
             let sliced = textBeforeCursorPosition.slice(0, -1);
             let updatedText = sliced + textAfterCursorPosition;
@@ -117,26 +120,27 @@ class Calculator extends Component {
             });
         }
         else{
-            //this.setState({runningValue: this.textareaRef.current.value});
-              //prevent next parentheses mismatch
-              let trailingChar = this.state.runningValue[this.state.runningValue.length - 1];
-              console.log(trailingChar);
-              if(trailingChar === "("){
-                  this.setState({ parentheses: "("});
-                  this.setState({ parenthesesDeleted: true});
-              }
-              else if(trailingChar === ")"){
-                  this.setState({ parentheses: ")"});
-                  this.setState({ parenthesesDeleted: true});
-              }
-
-              this.setState(prevState => ({
-                  parenthesesCount: prevState - 1
-              }));
-
-              let sliced = this.state.runningValue.slice(0, -1);
-              this.setState({ runningValue: sliced });
+            this.setState({runningValue: this.textareaRef.current.value});
         }
+        // else{
+        //       //prevent next parentheses mismatch
+        //       let trailingChar = this.state.runningValue[this.state.runningValue.length - 1];
+        //       if(trailingChar === "("){
+        //           this.setState({ parentheses: "("});
+        //           this.setState({ parenthesesDeleted: true});
+        //       }
+        //       else if(trailingChar === ")"){
+        //           this.setState({ parentheses: ")"});
+        //           this.setState({ parenthesesDeleted: true});
+        //       }
+
+        //       this.setState(prevState => ({
+        //           parenthesesCount: prevState.parenthesesCount - 1
+        //       }));
+
+        //       let sliced = this.state.runningValue.slice(0, -1);
+        //       this.setState({ runningValue: sliced });
+        // }
     }
 
     handleSelect = (event) => {
@@ -211,20 +215,23 @@ class Calculator extends Component {
 
             //prevent next parentheses mismatch
             let trailingChar = textBeforeCursorPosition[textBeforeCursorPosition.length - 1];
-
+         
             console.log(trailingChar);
-            if(trailingChar === "("){
-                this.setState({parentheses: "("});
-                this.setState({parenthesesDeleted: true});
+            if(trailingChar === "(" || trailingChar === ")"){
+                if(trailingChar === "("){
+                    this.setState({parentheses: "("});
+                    this.setState({parenthesesDeleted: true});
+                }
+                else if(trailingChar === ")"){
+                    this.setState({parentheses: ")"});
+                    this.setState({parenthesesDeleted: true});
+                }
+                this.setState(prevState => {
+                    if(this.state.parenthesesCount !== 0){
+                        return {parenthesesCount: prevState.parenthesesCount - 1}
+                    }
+                });
             }
-            else if(trailingChar === ")"){
-                this.setState({parentheses: ")"});
-                this.setState({parenthesesDeleted: true});
-            }
-
-            this.setState(prevState => ({
-                parenthesesCount: prevState - 1
-            }));
 
             let sliced = textBeforeCursorPosition.slice(0, -1);
             let updatedText = sliced + textAfterCursorPosition;
@@ -250,19 +257,23 @@ class Calculator extends Component {
             else{
                 //prevent next parentheses mismatch
                 let trailingChar = this.state.runningValue[this.state.runningValue.length - 1];
-                console.log(trailingChar);
+              
+            console.log(trailingChar);
+            if(trailingChar === "(" || trailingChar === ")"){
                 if(trailingChar === "("){
-                    this.setState({ parentheses: "("});
-                    this.setState({ parenthesesDeleted: true});
+                    this.setState({parentheses: "("});
+                    this.setState({parenthesesDeleted: true});
                 }
                 else if(trailingChar === ")"){
-                    this.setState({ parentheses: ")"});
-                    this.setState({ parenthesesDeleted: true});
+                    this.setState({parentheses: ")"});
+                    this.setState({parenthesesDeleted: true});
                 }
-
-                this.setState(prevState => ({
-                    parenthesesCount: prevState - 1
-                }));
+                this.setState(prevState => {
+                    if(this.state.parenthesesCount !== 0){
+                        return {parenthesesCount: prevState.parenthesesCount - 1}
+                    }
+                });
+            }
 
                 let sliced = this.state.runningValue.slice(0, -1);
                 this.setState({ runningValue: sliced });
