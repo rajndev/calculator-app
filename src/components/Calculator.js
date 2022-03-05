@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Display from './Display'
 import Keypad from './Keypad'
 import * as math from 'mathjs'
+import { string } from 'mathjs';
 
 class Calculator extends Component {
     constructor(props) {
@@ -39,22 +40,24 @@ class Calculator extends Component {
                   }
         }
         else {
-                let cursorPosition = this.state.cursorPos.start;
-                let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
-                let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
-                let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
-                this.setState(prevState => ({
-                    runningValue: updatedText
-                }));
+            let cursorPosition = this.state.cursorPos.start;
+            let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+            let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+            let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+            this.setState(prevState => ({
+                runningValue: updatedText
+            }));
                 this.setState(prevState => ({
                     cursorPos: {
                     start: prevState.cursorPos.start + 1,
                     end: prevState.cursorPos.end + 1
                     }
-                }));
-                if(this.textareaRef != null){
-                    this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
-                  }            
+                }), () => {
+                    this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+                    this.textareaRef.current.blur();
+                    this.textareaRef.current.focus();
+                    this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+                });
             }
     }
 
@@ -84,7 +87,6 @@ class Calculator extends Component {
             result = math.evaluate(running);
             this.setState({ runningValue: result.toString() });
             this.setState({ selected: false });
-            
             let newCursorPos = this.state.runningValue.length - 1;
             this.setState({
                 cursorPos: {
@@ -104,8 +106,34 @@ class Calculator extends Component {
     }
 
     handleBackClick = () => {
-        let sliced = this.state.runningValue.slice(0, -1);
-        this.setState({ runningValue: sliced });
+        if(this.state.selected){
+        let cursorPosition = this.state.cursorPos.start;
+        let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+        let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+
+        let sliced = textBeforeCursorPosition.slice(0, -1);
+
+        let updatedText = sliced + textAfterCursorPosition;
+        this.setState(prevState => ({
+            runningValue: updatedText
+        }));
+        this.setState(prevState => ({
+            cursorPos: {
+            start: prevState.cursorPos.start - 1,
+            end: prevState.cursorPos.end - 1
+            }
+        }), () => {
+            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+            this.textareaRef.current.blur();
+            this.textareaRef.current.focus();
+            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        });
+        this.setState({selected: false});
+        }   
+        else{
+            let sliced = this.state.runningValue.slice(0, -1);
+            this.setState({ runningValue: sliced });
+        }
     }
 
     getNewParentheses = () => {
