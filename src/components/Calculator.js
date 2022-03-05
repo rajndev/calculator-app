@@ -34,8 +34,6 @@ class Calculator extends Component {
                     return {parenthesesCount: prevState.parenthesesCount + 1}
                 });
             }
-
-           // console.log(this.state.parentheses);
             
             //prevent use of modulus key if display is empty
             if(key === "%" && runningValueIsEmpty){
@@ -82,8 +80,6 @@ class Calculator extends Component {
 
             //prevent next parentheses mismatch
             let trailingChar = textBeforeCursorPosition[textBeforeCursorPosition.length - 1];
-
-            console.log(trailingChar);
             if(trailingChar === "(" || trailingChar === ")"){
                 if(trailingChar === "("){
                     this.setState({parentheses: "("});
@@ -122,25 +118,6 @@ class Calculator extends Component {
         else{
             this.setState({runningValue: this.textareaRef.current.value});
         }
-        // else{
-        //       //prevent next parentheses mismatch
-        //       let trailingChar = this.state.runningValue[this.state.runningValue.length - 1];
-        //       if(trailingChar === "("){
-        //           this.setState({ parentheses: "("});
-        //           this.setState({ parenthesesDeleted: true});
-        //       }
-        //       else if(trailingChar === ")"){
-        //           this.setState({ parentheses: ")"});
-        //           this.setState({ parenthesesDeleted: true});
-        //       }
-
-        //       this.setState(prevState => ({
-        //           parenthesesCount: prevState.parenthesesCount - 1
-        //       }));
-
-        //       let sliced = this.state.runningValue.slice(0, -1);
-        //       this.setState({ runningValue: sliced });
-        // }
     }
 
     handleSelect = (event) => {
@@ -152,7 +129,6 @@ class Calculator extends Component {
               end: 0
             }
           });
-           //return;
         }
         else{
             this.setState({
@@ -215,8 +191,6 @@ class Calculator extends Component {
 
             //prevent next parentheses mismatch
             let trailingChar = textBeforeCursorPosition[textBeforeCursorPosition.length - 1];
-         
-            console.log(trailingChar);
             if(trailingChar === "(" || trailingChar === ")"){
                 if(trailingChar === "("){
                     this.setState({parentheses: "("});
@@ -257,9 +231,7 @@ class Calculator extends Component {
             else{
                 //prevent next parentheses mismatch
                 let trailingChar = this.state.runningValue[this.state.runningValue.length - 1];
-              
-            console.log(trailingChar);
-            if(trailingChar === "(" || trailingChar === ")"){
+                if(trailingChar === "(" || trailingChar === ")"){
                 if(trailingChar === "("){
                     this.setState({parentheses: "("});
                     this.setState({parenthesesDeleted: true});
