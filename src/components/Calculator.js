@@ -72,7 +72,6 @@ class Calculator extends Component {
     }
 
     handleInputChange = () => {
-
         if(this.state.selected){
             let cursorPosition = this.state.cursorPos.start;
             let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
