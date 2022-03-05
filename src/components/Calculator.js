@@ -61,9 +61,9 @@ class Calculator extends Component {
             }
     }
 
-    handleInputChange = (e) => {
+    handleInputChange = () => {
         this.setState({
-            runningValue: e.value
+            runningValue: this.textareaRef.current.value
         });
     }
 
@@ -177,7 +177,7 @@ class Calculator extends Component {
             <div className="container">
                 <Display 
                     value={this.state.runningValue} 
-                    onChange={(event) => this.handleInputChange(event)} 
+                    onChange={() => this.handleInputChange()} 
                     onSelect={(event) => this.handleSelect(event)}
                     getRef={(ref) => this.getTextareaRef(ref)}/>
 

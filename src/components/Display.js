@@ -16,6 +16,7 @@ class Display extends Component {
                 return false;
             }
         });
+        this.textareaRef.current.focus();
     }
 
     render() {
@@ -28,7 +29,7 @@ class Display extends Component {
                     className="user-inputs" 
                     value={this.props.value} 
                     ref={this.textareaRef}
-                    onChange={(event) => this.props.onChange(event)}
+                    onChange={() => this.props.onChange()}
                     onSelect={this.props.onSelect}/>
                 </div>
             </div>
