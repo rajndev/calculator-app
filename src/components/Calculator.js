@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Display from './Display'
 import Keypad from './Keypad'
 import * as math from 'mathjs'
-import { string } from 'mathjs';
+import { electronMassDependencies, string } from 'mathjs';
 
 class Calculator extends Component {
     constructor(props) {
@@ -22,11 +22,11 @@ class Calculator extends Component {
         let selectedStateIsFalse = this.state.selected === false;
 
         if(key === "()"){
-            if(this.state.runningValue === ""){
-                return;
+            if(runningValueIsEmpty){
+                key = "(";
             }
-            else {
-                key = this.getNewParentheses();
+            else{
+                key = this.getNextParentheses();
             }
         }
 
@@ -161,7 +161,7 @@ class Calculator extends Component {
         }
     }
 
-    getNewParentheses = () => {
+    getNextParentheses = () => {
         if(this.state.parentheses === "("){
             this.setState({parentheses: ")"});
             return ")";
