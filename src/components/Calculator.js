@@ -65,7 +65,6 @@ class Calculator extends Component {
         this.setState({
             runningValue: event.current.value
         });
-        
     }
 
     handleSelect = (event) => {
@@ -80,8 +79,7 @@ class Calculator extends Component {
                   end: event.target.selectionEnd
                 }
               });
-    
-              this.setState({selected: true});
+            this.setState({selected: true});
         }
     }
 
@@ -100,6 +98,8 @@ class Calculator extends Component {
                 end: newCursorPos
                 }
             });
+
+            this.textareaRef.current.focus();
         }
         catch {
             return;
