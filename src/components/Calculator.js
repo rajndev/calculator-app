@@ -69,14 +69,20 @@ class Calculator extends Component {
     }
 
     handleSelect = (event) => {
-        this.setState({
-            cursorPos: {
-              start: event.target.selectionStart,
-              end: event.target.selectionEnd
-            }
-          });
-
-          this.setState({selected: true});
+        if(this.state.runningValue === ""){
+          this.setState({selected: false});
+            return;
+        }
+        else{
+            this.setState({
+                cursorPos: {
+                  start: event.target.selectionStart,
+                  end: event.target.selectionEnd
+                }
+              });
+    
+              this.setState({selected: true});
+        }
     }
 
     handleEqualsClick = () => {
@@ -101,12 +107,20 @@ class Calculator extends Component {
     }
 
     handleClearClick = () => {
-        this.setState({ runningValue: "" });
-        this.setState({ parentheses: "" });
+        this.setState({ 
+            runningValue: "", 
+            parentheses: "", 
+            selected: false,
+            cursorPos: {start: 0, end: 0}
+        });
+        this.textareaRef.current.focus();
     }
 
     handleBackClick = () => {
-        if(this.state.selected){
+        if(this.state.selected === true && this.state.cursorPos.start === 0){
+            return;
+        }
+        else if(this.state.selected){
         let cursorPosition = this.state.cursorPos.start;
         let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
         let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);

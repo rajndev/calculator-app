@@ -13,6 +13,7 @@ class Display extends Component {
             event.preventDefault();
             return false;
         });
+        this.textareaRef.current.focus();
     }
 
     render() {
