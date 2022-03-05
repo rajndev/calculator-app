@@ -11,7 +11,8 @@ class Calculator extends Component {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
             selected: false,
-            parentheses: "" 
+            parentheses: "",
+            key: "" 
         };
 
         this.textareaRef = React.createRef(null);
@@ -21,18 +22,22 @@ class Calculator extends Component {
         let runningValueIsEmpty = this.state.runningValue.length === 0;
         let selectedStateIsFalse = this.state.selected === false;
 
-        if(key === "()"){
-            if(runningValueIsEmpty){
-                key = "(";
-            }
-            else{
-                key = this.getNextParentheses();
-            }
-        }
+        this.setState({ key: key }, () => {
+            if(this.state.key === "()"){
+                if(runningValueIsEmpty){
+                    key = "(";
+                }
+                else{
+                    key = this.getNextParentheses();
+                    this.setState({ key: key });
+                }
 
-        if(key === "%" && runningValueIsEmpty){
-            return;
-        }
+                if(this.state.key === "%" && runningValueIsEmpty){
+                    return;
+                }
+            }
+            
+        });
 
         if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
                 this.setState(prevState => ({
@@ -128,7 +133,7 @@ class Calculator extends Component {
     }
 
     handleBackClick = () => {
-        if(this.state.selected === true && this.state.cursorPos.start === 0){
+        if(this.state.selected && this.state.cursorPos.start === 0){
             return;
         }
         else if(this.state.selected){
