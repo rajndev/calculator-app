@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Key from './Key'
+import Key from '../key/Key'
 
 class Keypad extends Component {
     render() {

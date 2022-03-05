@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import $ from "jquery"
+import './display.css';
 
 class Display extends Component {
     constructor(props){

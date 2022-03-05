@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import Display from './Display'
-import Keypad from './Keypad'
+import Display from '../display/Display'
+import Keypad from '../keypad/Keypad'
 import * as math from 'mathjs'
+import './calculator.css';
 
 class Calculator extends Component {
     constructor(props) {

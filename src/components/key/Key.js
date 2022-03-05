@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './key.css'
 
 class Key extends Component {
     render() {
