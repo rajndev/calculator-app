@@ -30,6 +30,10 @@ class Calculator extends Component {
             }
         }
 
+        if(key === "%" && runningValueIsEmpty){
+            return;
+        }
+
         if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
                 this.setState(prevState => ({
                     runningValue: prevState.runningValue.concat(key)
