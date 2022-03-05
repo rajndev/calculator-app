@@ -61,10 +61,22 @@ class Calculator extends Component {
             }
     }
 
+    handleInputChange = (e) => {
+        this.setState({
+            runningValue: e.value
+        });
+    }
+
     handleSelect = (event) => {
         if(this.state.runningValue === ""){
           this.setState({selected: false});
-            return;
+          this.setState({
+            cursorPos: {
+              start: 0,
+              end: 0
+            }
+          });
+           //return;
         }
         else{
             this.setState({
@@ -165,9 +177,9 @@ class Calculator extends Component {
             <div className="container">
                 <Display 
                     value={this.state.runningValue} 
-                    onInputChange={(ref) => this.handleInputChange(ref)} 
-                    onSelect={(event => this.handleSelect(event))}
-                    getTextareaRef={(ref) => this.getTextareaRef(ref)}/>
+                    onChange={(event) => this.handleInputChange(event)} 
+                    onSelect={(event) => this.handleSelect(event)}
+                    getRef={(ref) => this.getTextareaRef(ref)}/>
 
                 <Keypad onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}

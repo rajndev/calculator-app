@@ -8,12 +8,14 @@ class Display extends Component {
     }
     
     componentDidMount () {
-        this.props.getTextareaRef(this.textareaRef);
-        $("#user-inputs").on('keypress', function(event) {
-            event.preventDefault();
-            return false;
+        this.props.getRef(this.textareaRef);
+        $("#user-inputs").on( "keypress", function(e) {
+            if(e.key !== 'Backspace')
+            {
+                e.preventDefault();
+                return false;
+            }
         });
-        this.textareaRef.current.focus();
     }
 
     render() {
@@ -26,6 +28,7 @@ class Display extends Component {
                     className="user-inputs" 
                     value={this.props.value} 
                     ref={this.textareaRef}
+                    onChange={(event) => this.props.onChange(event)}
                     onSelect={this.props.onSelect}/>
                 </div>
             </div>
