@@ -106,21 +106,26 @@ class Calculator extends Component {
         let running = this.state.runningValue;
 
         try {
-            result = math.evaluate(running);
-            this.setState({ runningValue: result.toString() });
-            this.setState({ selected: false });
-            let newCursorPos = this.state.runningValue.length - 1;
-            this.setState({
-                cursorPos: {
-                start: newCursorPos,
-                end: newCursorPos
-                }
-            });
-
-            this.textareaRef.current.focus();
+            if(this.state.runningValue.includes("/0")){
+                alert("Invalid calculation!");
+                return;
+            }
+            else{
+                result = math.evaluate(running);
+                this.setState({ runningValue: result.toString() });
+                this.setState({ selected: false });
+                let newCursorPos = this.state.runningValue.length - 1;
+                this.setState({
+                    cursorPos: {
+                    start: newCursorPos,
+                    end: newCursorPos
+                    }
+                });
+                this.textareaRef.current.focus();
+            }
         }
         catch {
-            alert("Invalid math expression!");
+            alert("Invalid calculation!");
             return;
         }
     }
@@ -198,7 +203,7 @@ class Calculator extends Component {
                 this.setState(prevState => ({
                     parenthesesCount: prevState - 1
                 }));
-                
+
                 let sliced = this.state.runningValue.slice(0, -1);
                 this.setState({ runningValue: sliced });
             }
