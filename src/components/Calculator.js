@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Display from './Display'
 import Keypad from './Keypad'
 import * as math from 'mathjs'
-import { electronMassDependencies, string } from 'mathjs';
 
 class Calculator extends Component {
     constructor(props) {
@@ -11,8 +10,9 @@ class Calculator extends Component {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
             selected: false,
-            parentheses: "",
-            key: "" 
+            parentheses: "(",
+            parenthesesCount: 0,
+            parenthesesDeleted: false
         };
 
         this.textareaRef = React.createRef(null);
@@ -22,22 +22,25 @@ class Calculator extends Component {
         let runningValueIsEmpty = this.state.runningValue.length === 0;
         let selectedStateIsFalse = this.state.selected === false;
 
-        this.setState({ key: key }, () => {
-            if(this.state.key === "()"){
+            if(key === "()"){
                 if(runningValueIsEmpty){
                     key = "(";
+                    this.setState({ parentheses: "(" });
                 }
                 else{
                     key = this.getNextParentheses();
-                    this.setState({ key: key });
                 }
-
-                if(this.state.key === "%" && runningValueIsEmpty){
-                    return;
-                }
+                this.setState(prevState => ({
+                    parenthesesCount: prevState + 1
+                }));
             }
+
+            console.log(this.state.parentheses);
             
-        });
+            //prevent use of modulus key if display is empty
+            if(key === "%" && runningValueIsEmpty){
+                return;
+            }
 
         if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
                 this.setState(prevState => ({
@@ -137,43 +140,95 @@ class Calculator extends Component {
             return;
         }
         else if(this.state.selected){
-        let cursorPosition = this.state.cursorPos.start;
-        let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
-        let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+            let cursorPosition = this.state.cursorPos.start;
+            let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+            let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
 
-        let sliced = textBeforeCursorPosition.slice(0, -1);
+            //prevent next parentheses mismatch
+            let trailingChar = textBeforeCursorPosition[textAfterCursorPosition.length - 1];
 
-        let updatedText = sliced + textAfterCursorPosition;
-        this.setState(prevState => ({
-            runningValue: updatedText
-        }));
-        this.setState(prevState => ({
-            cursorPos: {
-            start: prevState.cursorPos.start - 1,
-            end: prevState.cursorPos.end - 1
+            console.log(trailingChar);
+            if(trailingChar === "("){
+                this.setState({parentheses: "("});
+                this.setState({parenthesesDeleted: true});
             }
-        }), () => {
-            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-            this.textareaRef.current.blur();
-            this.textareaRef.current.focus();
-            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-        });
-        this.setState({selected: false});
-        }   
-        else{
-            let sliced = this.state.runningValue.slice(0, -1);
-            this.setState({ runningValue: sliced });
-        }
+            else if(trailingChar === ")"){
+                this.setState({parentheses: ")"});
+                this.setState({parenthesesDeleted: true});
+            }
+
+            this.setState(prevState => ({
+                parenthesesCount: prevState - 1
+            }));
+
+            let sliced = textBeforeCursorPosition.slice(0, -1);
+            let updatedText = sliced + textAfterCursorPosition;
+
+            this.setState(prevState => ({
+                runningValue: updatedText
+            }));
+
+            this.setState(prevState => ({
+                cursorPos: {
+                start: prevState.cursorPos.start - 1,
+                end: prevState.cursorPos.end - 1
+                }
+            }), () => {
+                this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+                this.textareaRef.current.blur();
+                this.textareaRef.current.focus();
+                this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+            });
+
+            this.setState({selected: false});
+            }   
+            else{
+                //prevent next parentheses mismatch
+                let trailingChar = this.state.runningValue[this.state.runningValue.length - 1];
+                console.log(trailingChar);
+                if(trailingChar === "("){
+                    this.setState({ parentheses: "("});
+                    this.setState({ parenthesesDeleted: true});
+                }
+                else if(trailingChar === ")"){
+                    this.setState({ parentheses: ")"});
+                    this.setState({ parenthesesDeleted: true});
+                }
+
+                this.setState(prevState => ({
+                    parenthesesCount: prevState - 1
+                }));
+                
+                let sliced = this.state.runningValue.slice(0, -1);
+                this.setState({ runningValue: sliced });
+            }
     }
 
     getNextParentheses = () => {
-        if(this.state.parentheses === "("){
+        //If a parentheses was just deleted, prevent mismatch on next parentheses value
+        if(this.state.parentheses === "(" && this.state.parenthesesDeleted){
+            this.setState({parentheses: "("});
+            this.setState({parenthesesDeleted: false});
+            return "(";
+        }
+        else if(this.state.parentheses === ")" && this.state.parenthesesDeleted){
             this.setState({parentheses: ")"});
+            this.setState({parenthesesDeleted: false});
             return ")";
         }
         else{
-            this.setState({parentheses: "("});
-            return "(";
+            //default logic for assigning next parentheses
+            if(this.state.parenthesesCount === 0){
+                return "(";
+            }
+            if(this.state.parentheses === "("){
+                this.setState({parentheses: ")"});
+                return ")";
+            }
+            else{
+                this.setState({parentheses: "("});
+                return "(";
+            }
         }
     }
 
