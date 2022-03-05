@@ -96,6 +96,7 @@ class Calculator extends Component {
             this.textareaRef.current.focus();
         }
         catch {
+            alert("Invalid math expression!");
             return;
         }
     }
