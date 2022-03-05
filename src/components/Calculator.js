@@ -293,7 +293,8 @@ class Calculator extends Component {
                     onSelect={(event) => this.handleSelect(event)}
                     getRef={(ref) => this.getTextareaRef(ref)}/>
 
-                <Keypad onKeyClick={i => this.handleKeyClick(i)}
+                <Keypad 
+                    onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
                     onClearKeyClick={() => this.handleClearClick()}
                     onBackKeyClick={() => this.handleBackClick()} />
