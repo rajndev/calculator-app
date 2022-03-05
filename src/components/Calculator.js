@@ -74,9 +74,69 @@ class Calculator extends Component {
     }
 
     handleInputChange = () => {
-        this.setState({
-            runningValue: this.textareaRef.current.value
-        });
+
+        if(this.state.selected){
+            let cursorPosition = this.state.cursorPos.start;
+            let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+            let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+
+            //prevent next parentheses mismatch
+            let trailingChar = textBeforeCursorPosition[textBeforeCursorPosition.length - 1];
+
+            console.log(trailingChar);
+            if(trailingChar === "("){ 
+                this.setState({parentheses: "("});
+                this.setState({parenthesesDeleted: true});
+            }
+            else if(trailingChar === ")"){
+                this.setState({parentheses: ")"});
+                this.setState({parenthesesDeleted: true});
+            }
+
+            this.setState(prevState => ({
+                parenthesesCount: prevState - 1
+            }));
+
+            let sliced = textBeforeCursorPosition.slice(0, -1);
+            let updatedText = sliced + textAfterCursorPosition;
+
+            this.setState(prevState => ({
+                runningValue: updatedText
+            }));
+
+            this.setState(prevState => ({
+                cursorPos: {
+                start: prevState.cursorPos.start - 1,
+                end: prevState.cursorPos.end - 1
+                }
+            }), () => {
+                this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+                this.textareaRef.current.blur();
+                this.textareaRef.current.focus();
+                this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+            });
+        }
+        else{
+            //this.setState({runningValue: this.textareaRef.current.value});
+              //prevent next parentheses mismatch
+              let trailingChar = this.state.runningValue[this.state.runningValue.length - 1];
+              console.log(trailingChar);
+              if(trailingChar === "("){
+                  this.setState({ parentheses: "("});
+                  this.setState({ parenthesesDeleted: true});
+              }
+              else if(trailingChar === ")"){
+                  this.setState({ parentheses: ")"});
+                  this.setState({ parenthesesDeleted: true});
+              }
+
+              this.setState(prevState => ({
+                  parenthesesCount: prevState - 1
+              }));
+
+              let sliced = this.state.runningValue.slice(0, -1);
+              this.setState({ runningValue: sliced });
+        }
     }
 
     handleSelect = (event) => {
@@ -150,7 +210,7 @@ class Calculator extends Component {
             let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
 
             //prevent next parentheses mismatch
-            let trailingChar = textBeforeCursorPosition[textAfterCursorPosition.length - 1];
+            let trailingChar = textBeforeCursorPosition[textBeforeCursorPosition.length - 1];
 
             console.log(trailingChar);
             if(trailingChar === "("){
