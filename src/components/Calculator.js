@@ -147,7 +147,7 @@ class Calculator extends Component {
 
         try {
             if(this.state.runningValue.includes("/0")){
-                alert("Invalid calculation!");
+                alert("Cannot divide by 0! Please check your input.");
                 return;
             }
             else{
