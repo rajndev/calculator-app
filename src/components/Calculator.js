@@ -61,12 +61,6 @@ class Calculator extends Component {
             }
     }
 
-    handleInputChange = (event) => {
-        this.setState({
-            runningValue: event.current.value
-        });
-    }
-
     handleSelect = (event) => {
         if(this.state.runningValue === ""){
           this.setState({selected: false});

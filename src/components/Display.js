@@ -25,8 +25,7 @@ class Display extends Component {
                     id="user-inputs" 
                     className="user-inputs" 
                     value={this.props.value} 
-                    ref={this.textareaRef} 
-                    onChange={() => this.props.onInputChange()} 
+                    ref={this.textareaRef}
                     onSelect={this.props.onSelect}/>
                 </div>
             </div>
