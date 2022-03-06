@@ -107,14 +107,17 @@ class Calculator extends Component {
                 result = math.evaluate(running);
                 this.setState({ runningValue: result.toString() });
                 this.setState({ selected: false });
-                let newCursorPos = this.state.runningValue.length - 1;
+                let newCursorPos = result.toString().length;
                 this.setState({
                     cursorPos: {
                     start: newCursorPos,
                     end: newCursorPos
-                    }
+                    },
+                    parenthesesDeleted: false,
+                    parenthesesCount: 0,
+                    parentheses: "("
                 });
-                this.textareaRef.current.focus();
+                //this.textareaRef.current.focus();
             }
         }
         catch {
@@ -132,7 +135,7 @@ class Calculator extends Component {
             selected: false,
             cursorPos: {start: 0, end: 0}
         });
-        this.textareaRef.current.focus();
+       // this.textareaRef.current.focus();
     }
 
     handleBackClick = () => {
