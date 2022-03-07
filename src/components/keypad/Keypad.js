@@ -8,9 +8,8 @@ class Keypad extends Component {
             <div className="keys">
                 <div className="row">
                     <button name="C" className="helper" onClick={(e) => this.props.onClearKeyClick(e.target.name)}>C</button>
-                    <button name="%" className="helper" onClick={(e) => this.props.onKeyClick(e.target.name)}>%</button>
-                    <button name="()" className="helper" onClick={(e) => this.props.onKeyClick(e.target.name)}>( )</button>
-                  
+                    <button name="(" className="helper" onClick={(e) => this.props.onKeyClick(e.target.name)}>(</button>
+                    <button name=")" className="helper" onClick={(e) => this.props.onKeyClick(e.target.name)}>)</button>
                     <button name="+" className="operator" onClick={(e) => this.props.onKeyClick(e.target.name)}>+</button>
 
                     <button name="7"  onClick={(e) => this.props.onKeyClick(e.target.name)}>7</button>
