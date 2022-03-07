@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/react-demo-calculator-app/static/css/main.5af81385.chunk.css",
-    "main.js": "/react-demo-calculator-app/static/js/main.53a65bea.chunk.js",
-    "main.js.map": "/react-demo-calculator-app/static/js/main.53a65bea.chunk.js.map",
-    "runtime-main.js": "/react-demo-calculator-app/static/js/runtime-main.332aae9e.js",
-    "runtime-main.js.map": "/react-demo-calculator-app/static/js/runtime-main.332aae9e.js.map",
-    "static/js/2.78bf3cd7.chunk.js": "/react-demo-calculator-app/static/js/2.78bf3cd7.chunk.js",
-    "static/js/2.78bf3cd7.chunk.js.map": "/react-demo-calculator-app/static/js/2.78bf3cd7.chunk.js.map",
-    "static/js/3.b2be1a65.chunk.js": "/react-demo-calculator-app/static/js/3.b2be1a65.chunk.js",
-    "static/js/3.b2be1a65.chunk.js.map": "/react-demo-calculator-app/static/js/3.b2be1a65.chunk.js.map",
+    "main.js": "/react-demo-calculator-app/static/js/main.93568d3e.chunk.js",
+    "main.js.map": "/react-demo-calculator-app/static/js/main.93568d3e.chunk.js.map",
+    "runtime-main.js": "/react-demo-calculator-app/static/js/runtime-main.90045ea7.js",
+    "runtime-main.js.map": "/react-demo-calculator-app/static/js/runtime-main.90045ea7.js.map",
+    "static/js/2.96736607.chunk.js": "/react-demo-calculator-app/static/js/2.96736607.chunk.js",
+    "static/js/2.96736607.chunk.js.map": "/react-demo-calculator-app/static/js/2.96736607.chunk.js.map",
+    "static/js/3.854c3d79.chunk.js": "/react-demo-calculator-app/static/js/3.854c3d79.chunk.js",
+    "static/js/3.854c3d79.chunk.js.map": "/react-demo-calculator-app/static/js/3.854c3d79.chunk.js.map",
     "index.html": "/react-demo-calculator-app/index.html",
     "static/css/main.5af81385.chunk.css.map": "/react-demo-calculator-app/static/css/main.5af81385.chunk.css.map",
-    "static/js/2.78bf3cd7.chunk.js.LICENSE.txt": "/react-demo-calculator-app/static/js/2.78bf3cd7.chunk.js.LICENSE.txt"
+    "static/js/2.96736607.chunk.js.LICENSE.txt": "/react-demo-calculator-app/static/js/2.96736607.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.332aae9e.js",
-    "static/js/2.78bf3cd7.chunk.js",
+    "static/js/runtime-main.90045ea7.js",
+    "static/js/2.96736607.chunk.js",
     "static/css/main.5af81385.chunk.css",
-    "static/js/main.53a65bea.chunk.js"
+    "static/js/main.93568d3e.chunk.js"
   ]
 }
