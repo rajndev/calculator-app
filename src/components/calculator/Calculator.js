@@ -12,24 +12,26 @@ class Calculator extends Component {
             cursorPos: {start: 0, end: 0},
             selected: false
         };
-
         this.textareaRef = React.createRef(null);
     }
 
     handleKeyClick = (key) => {
         let runningValueIsEmpty = this.state.runningValue.length === 0;
         let selectedStateIsFalse = this.state.selected === false;
-
+        
+        //if the display is empty or a key is pressed and there is no active cursor in the textarea
         if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
-                this.setState(prevState => ({
-                    runningValue: prevState.runningValue.concat(key)
-                }));
+            this.setState(prevState => ({
+                runningValue: prevState.runningValue.concat(key)
+            }));
 
-                if(this.textareaRef != null){
-                    this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
-                  }
+            //scroll the textarea up when the input reaches the bottom
+            if(this.textareaRef != null){
+                this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
+                }
         }
         else {
+            //else insert the key at the cursor position
             let cursorPosition = this.state.cursorPos.start;
             let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
             let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
@@ -43,6 +45,7 @@ class Calculator extends Component {
                     end: prevState.cursorPos.end + 1
                     }
                 }), () => {
+                    //scroll to the current position of the cursor
                     this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
                     this.textareaRef.current.blur();
                     this.textareaRef.current.focus();
@@ -51,36 +54,9 @@ class Calculator extends Component {
             }
     }
 
+    //the backspace key on the keyboard is pressed
     handleInputChange = () => {
-        if(this.state.selected){
-          let selectionStartPos = this.state.cursorPos.start;
-          let selectionEndPos = this.state.cursorPos.end;
-          let textBeforeCursorPosition = this.state.runningValue.substring(0, selectionStartPos);
-          let textAfterCursorPosition = this.state.runningValue.substring(selectionEndPos, this.state.runningValue.length);
-
-          let sliced = textBeforeCursorPosition.slice(0, -1);
-          let updatedText = sliced + textAfterCursorPosition;
-  
-          this.setState(prevState => ({
-              runningValue: updatedText
-          }));
-  
-          this.setState(prevState => ({
-              cursorPos: {
-              start: prevState.cursorPos.start - 1,
-              end: prevState.cursorPos.end - 1
-              }
-          }), () => {
-              //scroll to the current position of the cursor
-              this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-              this.textareaRef.current.blur();
-              this.textareaRef.current.focus();
-              this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-          });
-        }
-        else{
-            this.setState({runningValue: this.textareaRef.current.value});
-        }
+        this.setState({runningValue: this.textareaRef.current.value});
     }
 
     handleSelect = (event) => {
@@ -92,8 +68,13 @@ class Calculator extends Component {
               end: 0
             }
           });
+            this.textareaRef.current.setSelectionRange(0, 0);
+            this.textareaRef.current.blur();
+            this.textareaRef.current.focus();
+            this.textareaRef.current.setSelectionRange(0, 0);
         }
         else{
+            this.textareaRef.current.focus();
             this.setState({
                 cursorPos: {
                   start: event.target.selectionStart,
@@ -114,18 +95,16 @@ class Calculator extends Component {
                 return;
             }
             else{
+                //calculate the math expression on the display
                 result = math.evaluate(running);
-                this.setState({ runningValue: result.toString() });
-                this.setState({ selected: false });
+                this.setState({runningValue: result.toString()});
+                this.setState({selected: false});
                 let newCursorPos = result.toString().length;
                 this.setState({
                     cursorPos: {
                     start: newCursorPos,
                     end: newCursorPos
-                    },
-                    parenthesesDeleted: false,
-                    parenthesesCount: 0,
-                    parentheses: "("
+                    }
                 });
             }
         }
@@ -144,44 +123,115 @@ class Calculator extends Component {
     }
 
     handleBackClick = () => {
-        if(this.state.selected && this.state.cursorPos.start === 0){
-            this.setState({ 
-                runningValue: "", 
-                selected: false,
-                cursorPos: {start: 0, end: 0}
-            });
+        let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
+        //if there is an active cursor in the textarea and all the characters are deleted
+        if(this.state.runningValue === ""){
             return;
         }
-        else if(this.state.selected){
-        let selectionStartPos = this.state.cursorPos.start;
-        let selectionEndPos = this.state.cursorPos.end;
-        let textBeforeCursorPosition = this.state.runningValue.substring(0, selectionStartPos);
-        let textAfterCursorPosition = this.state.runningValue.substring(selectionEndPos, this.state.runningValue.length);
+        else if(this.state.selected && selectedText !== ""){
+            // let updatedRunningValue = this.state.runningValue.replace(selectedText, "");
+            // this.setState({runningValue: updatedRunningValue});
+            // let indexx = this.state.runningValue.indexOf(selectedText);
+            // console.log(indexx);
 
-        let sliced = textBeforeCursorPosition.slice(0, -1);
-        let updatedText = sliced + textAfterCursorPosition;
+            let cursorStartPos = this.textareaRef.current.selectionStart;
+            let cursorEndPos = this.textareaRef.current.selectionEnd;
+            let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
+            let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
 
-        this.setState(prevState => ({
-            runningValue: updatedText
-        }));
-
-        this.setState(prevState => ({
-            cursorPos: {
-            start: prevState.cursorPos.start - 1,
-            end: prevState.cursorPos.end - 1
+            let updatedText = textBeforeCursorStart + textAfterCursorEnd;
+            
+            if(updatedText === ""){
+                this.setState({
+                    runningValue: "",
+                    selected: false,
+                    cursorPos: {start: 0, end: 0}
+                });
             }
-        }), () => {
-            //scroll to the current position of the cursor
-            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-            this.textareaRef.current.blur();
-            this.textareaRef.current.focus();
-            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-        });
-            }   
-            else{
-                let sliced = this.state.runningValue.slice(0, -1);
-                this.setState({ runningValue: sliced });
+            else
+            {
+                this.setState({
+                    runningValue: updatedText
+                });
+        
+                this.setState({
+                    cursorPos: {
+                    start: cursorStartPos,
+                    end: cursorEndPos
+                    }
+                }, () => {
+                    this.textareaRef.current.setSelectionRange(cursorStartPos, cursorStartPos);
+                    this.textareaRef.current.blur();
+                    this.textareaRef.current.focus();
+                    this.textareaRef.current.setSelectionRange(cursorStartPos, cursorStartPos);
+                });
             }
+        }
+        else if(this.state.selected && selectedText === ""){
+            let cursorStartPos = this.textareaRef.current.selectionStart;
+            let cursorEndPos = this.textareaRef.current.selectionEnd;
+            let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
+            let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
+
+            let sliced = textBeforeCursorStart.slice(0, -1);
+            let updatedText = sliced + textAfterCursorEnd;
+            
+            if(updatedText === ""){
+                this.setState({
+                    runningValue: "",
+                    cursorPos: {start: 0, end: 0},
+                    selected: false
+                });
+            }
+            else
+            {
+                this.setState({
+                    runningValue: updatedText
+                });
+                this.setState(prevState => ({
+                    cursorPos: {
+                    start: prevState.cursorPos.start - 1,
+                    end: prevState.cursorPos.end - 1
+                    }
+                }), () => {
+                    //scroll to the current position of the cursor
+                    this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+                    this.textareaRef.current.blur();
+                    this.textareaRef.current.focus();
+                    this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+                });
+            }
+        }
+        else if(!this.state.selected && selectedText !== ""){
+            let cursorStartPos = this.textareaRef.current.selectionStart;
+            let cursorEndPos = this.textareaRef.current.selectionEnd;
+            let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
+            let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
+
+            let updatedText = textBeforeCursorStart + textAfterCursorEnd;
+    
+            this.setState({
+                runningValue: updatedText
+            });
+    
+            this.setState({
+                cursorPos: {
+                start: cursorStartPos,
+                end: cursorEndPos
+                }
+            }, () => {
+                this.textareaRef.current.setSelectionRange(cursorStartPos, cursorStartPos);
+                this.textareaRef.current.blur();
+                this.textareaRef.current.focus();
+                this.textareaRef.current.setSelectionRange(cursorStartPos, cursorStartPos);
+            });
+            
+        }
+        else
+        {
+            let sliced = this.state.runningValue.slice(0, -1);
+            this.setState({ runningValue: sliced });
+        }
     }
 
     getTextareaRef = (ref) => {
