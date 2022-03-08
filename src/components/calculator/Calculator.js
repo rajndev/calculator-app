@@ -20,68 +20,212 @@ class Calculator extends Component {
         let selectedStateIsFalse = this.state.selected === false;
         let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
 
-        //if the display is empty or a key is pressed and there is no active cursor in the textarea
-        if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
-
-            this.setState(prevState => ({
-                runningValue: prevState.runningValue.concat(key)
-            }));
-
-            //scroll the textarea up when the input reaches the bottom
-            if(this.textareaRef != null){
-                this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
-                }
+        if(selectedText !== "" || this.state.selected && selectedText === ""){
+            this.insertTextIntoDisplay(key);
         }
-        else {
-            if(selectedText !== ""){
-                let cursorStartPos = this.textareaRef.current.selectionStart;
-                let cursorEndPos = this.textareaRef.current.selectionEnd;
-                let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
-                let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
+        else
+        {
+            if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
 
-                let updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
-            
-                this.setState({
-                    runningValue: updatedText
-                });
-        
-                this.setState({
-                    cursorPos: {
-                    start: cursorStartPos + 1,
-                    end: cursorEndPos + 1
-                    }
-                }, () => {
-                    this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
-                    this.textareaRef.current.blur();
-                    this.textareaRef.current.focus();
-                    this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
-                });
-            
-            }
-            else
-            {   //else insert the key at the cursor position
-                let cursorPosition = this.state.cursorPos.start;
-                let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
-                let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
-                let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
                 this.setState(prevState => ({
-                    runningValue: updatedText
+                    runningValue: prevState.runningValue.concat(key)
                 }));
-                    this.setState(prevState => ({
-                        cursorPos: {
-                        start: prevState.cursorPos.start + 1,
-                        end: prevState.cursorPos.end + 1
-                        }
-                    }), () => {
-                        //scroll to the current position of the cursor
-                        this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-                        this.textareaRef.current.blur();
-                        this.textareaRef.current.focus();
-                        this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-                    });
-                }
+    
+                //scroll the textarea up when the input reaches the bottom
+                if(this.textareaRef != null){
+                    this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
+                    }
             }
         }
+        // if(selectedText !== "") {
+        //     //this.insertTextIntoDisplay(key);
+        //   //  if(selectedText !== ""){
+        //         let cursorStartPos = this.textareaRef.current.selectionStart;
+        //         let cursorEndPos = this.textareaRef.current.selectionEnd;
+        //         let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
+        //         let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
+
+        //         let updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
+            
+        //         this.setState({
+        //             runningValue: updatedText
+        //         });
+        
+        //         this.setState({
+        //             cursorPos: {
+        //             start: cursorStartPos + 1,
+        //             end: cursorEndPos + 1
+        //             },
+        //             selected: true
+        //         }, () => {
+        //             this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+        //             this.textareaRef.current.blur();
+        //             this.textareaRef.current.focus();
+        //             this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+        //         });
+            
+        //    // }
+        //     // else
+        //     // {   //else insert the key at the cursor position
+        //     //     let cursorPosition = this.state.cursorPos.start;
+        //     //     let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+        //     //     let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+        //     //     let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+                
+        //     //     this.setState(prevState => ({
+        //     //         runningValue: updatedText
+        //     //     }));
+
+        //     //     this.setState(prevState => ({
+        //     //         cursorPos: {
+        //     //         start: prevState.cursorPos.start + 1,
+        //     //         end: prevState.cursorPos.end + 1
+        //     //         }
+        //     //     }), () => {
+        //     //         //scroll to the current position of the cursor
+        //     //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //     //         this.textareaRef.current.blur();
+        //     //         this.textareaRef.current.focus();
+        //     //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //     //     });
+                
+        //     // }
+        // }else if(this.state.selected && selectedText === "")
+        // {
+        //     //else insert the key at the cursor position
+        //     let cursorPosition = this.state.cursorPos.start;
+        //     let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+        //     let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+        //     let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+
+        //     this.setState(prevState => ({
+        //         runningValue: updatedText
+        //     }));
+
+        //     this.setState(prevState => ({
+        //         cursorPos: {
+        //         start: prevState.cursorPos.start + 1,
+        //         end: prevState.cursorPos.end + 1
+        //         },
+        //         selected: true
+        //     }), () => {
+        //         //scroll to the current position of the cursor
+        //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //         this.textareaRef.current.blur();
+        //         this.textareaRef.current.focus();
+        //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //     });
+
+        // }
+        // else 
+        // {
+        //     if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
+
+        //         this.setState(prevState => ({
+        //             runningValue: prevState.runningValue.concat(key)
+        //         }));
+    
+        //         //scroll the textarea up when the input reaches the bottom
+        //         if(this.textareaRef != null){
+        //             this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
+        //             }
+        //     }
+        // }
+
+        // //if the display is empty or a key is pressed and there is no active cursor in the textarea
+        // if(runningValueIsEmpty || !runningValueIsEmpty && selectedStateIsFalse){
+
+        //     this.setState(prevState => ({
+        //         runningValue: prevState.runningValue.concat(key)
+        //     }));
+
+        //     //scroll the textarea up when the input reaches the bottom
+        //     if(this.textareaRef != null){
+        //         this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
+        //         }
+        // }
+        // else if(selectedText !== "") {
+        //     //this.insertTextIntoDisplay(key);
+        //   //  if(selectedText !== ""){
+        //         let cursorStartPos = this.textareaRef.current.selectionStart;
+        //         let cursorEndPos = this.textareaRef.current.selectionEnd;
+        //         let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
+        //         let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
+
+        //         let updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
+            
+        //         this.setState({
+        //             runningValue: updatedText
+        //         });
+        
+        //         this.setState({
+        //             cursorPos: {
+        //             start: cursorStartPos + 1,
+        //             end: cursorEndPos + 1
+        //             },
+        //             selected: true
+        //         }, () => {
+        //             this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+        //             this.textareaRef.current.blur();
+        //             this.textareaRef.current.focus();
+        //             this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+        //         });
+            
+        //    // }
+        //     // else
+        //     // {   //else insert the key at the cursor position
+        //     //     let cursorPosition = this.state.cursorPos.start;
+        //     //     let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+        //     //     let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+        //     //     let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+                
+        //     //     this.setState(prevState => ({
+        //     //         runningValue: updatedText
+        //     //     }));
+
+        //     //     this.setState(prevState => ({
+        //     //         cursorPos: {
+        //     //         start: prevState.cursorPos.start + 1,
+        //     //         end: prevState.cursorPos.end + 1
+        //     //         }
+        //     //     }), () => {
+        //     //         //scroll to the current position of the cursor
+        //     //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //     //         this.textareaRef.current.blur();
+        //     //         this.textareaRef.current.focus();
+        //     //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //     //     });
+                
+        //     // }
+        // }
+        // else
+        // {
+        //     //else insert the key at the cursor position
+        //     let cursorPosition = this.state.cursorPos.start;
+        //     let textBeforeCursorPosition = this.state.runningValue.substring(0, cursorPosition);
+        //     let textAfterCursorPosition = this.state.runningValue.substring(cursorPosition, this.state.runningValue.length);
+        //     let updatedText = textBeforeCursorPosition + key + textAfterCursorPosition;
+
+        //     this.setState(prevState => ({
+        //         runningValue: updatedText
+        //     }));
+
+        //     this.setState(prevState => ({
+        //         cursorPos: {
+        //         start: prevState.cursorPos.start + 1,
+        //         end: prevState.cursorPos.end + 1
+        //         },
+        //         selected: true
+        //     }), () => {
+        //         //scroll to the current position of the cursor
+        //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //         this.textareaRef.current.blur();
+        //         this.textareaRef.current.focus();
+        //         this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
+        //     });
+
+        // }
+    }
 
     //the backspace key on the keyboard is pressed
     handleInputChange = () => {
@@ -260,6 +404,46 @@ class Calculator extends Component {
 
     getTextareaRef = (ref) => {
         this.textareaRef = ref;
+    }
+
+    insertTextIntoDisplay = (key) => {
+        let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
+
+        let cursorStartPos = this.textareaRef.current.selectionStart;
+        let cursorEndPos = this.textareaRef.current.selectionEnd;
+        let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
+        let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
+
+        let updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
+    
+        this.setState({
+            runningValue: updatedText
+        });
+        
+        this.setState(prevState => {
+            if(selectedText !== ""){
+                return {cursorPos:{
+                        start: cursorStartPos + 1,
+                        end: cursorEndPos + 1
+                        },
+                        selected: true
+                    }
+            }
+            else if(this.state.selected && selectedText === "")
+            {
+                return {cursorPos:{
+                    start: prevState.cursorPos.start + 1,
+                    end: prevState.cursorPos.end + 1
+                    },
+                    selected: true
+                }
+            }
+        }, () => {
+            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+            this.textareaRef.current.blur();
+            this.textareaRef.current.focus();
+            this.textareaRef.current.setSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+        });
     }
 
     render() {
