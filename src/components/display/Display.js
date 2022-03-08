@@ -30,7 +30,7 @@ class Display extends Component {
                     className="user-inputs" 
                     value={this.props.value} 
                     ref={this.textareaRef}
-                    onChange={() => this.props.onChange()}
+                    onChange={this.props.onChange}
                     onSelect={this.props.onSelect}/>
                 </div>
             </div>

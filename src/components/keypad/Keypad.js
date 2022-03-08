@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import Key from '../key/Key'
 import './keypad.css'
 
 class Keypad extends Component {
