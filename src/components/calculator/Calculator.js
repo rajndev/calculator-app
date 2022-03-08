@@ -109,15 +109,15 @@ class Calculator extends Component {
 
     handleBackClick = () => {
         let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
-        //if there is an active cursor in the textarea and all the characters are deleted
+       
         if(this.state.runningValue === ""){
             return;
-        }
+        } //if a text selection exists or no selection exists while the textarea is selected
         else if(selectedText !== "" || this.state.selected && selectedText === ""){
             this.deleteTextFromDisplay(selectedText);
         }
         else
-        {
+        {//default trailing delete behavior
             let sliced = this.state.runningValue.slice(0, -1);
             this.setState({ runningValue: sliced });
         }
