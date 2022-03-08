@@ -158,11 +158,6 @@ class Calculator extends Component {
             return;
         }
         else if(this.state.selected && selectedText !== ""){
-            // let updatedRunningValue = this.state.runningValue.replace(selectedText, "");
-            // this.setState({runningValue: updatedRunningValue});
-            // let indexx = this.state.runningValue.indexOf(selectedText);
-            // console.log(indexx);
-
             let cursorStartPos = this.textareaRef.current.selectionStart;
             let cursorEndPos = this.textareaRef.current.selectionEnd;
             let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
