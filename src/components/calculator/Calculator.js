@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import Display from '../display/Display'
 import Keypad from '../keypad/Keypad'
+// import Parentheses from './parentheses'
+
 import * as math from 'mathjs'
 import './calculator.css';
+import ParenthesesProcessor from './parentheses';
 
 class Calculator extends Component {
     constructor(props) {
@@ -10,7 +13,9 @@ class Calculator extends Component {
         this.state = {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
-            selected: false
+            selected: false,
+            parenthesesCount: 0,
+            parentheses: "("
         };
         this.textareaRef = React.createRef(null);
     }
@@ -19,6 +24,10 @@ class Calculator extends Component {
         let runningValueIsEmpty = this.state.runningValue.length === 0;
         let selectedStateIsFalse = this.state.selected === false;
         let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
+
+        if(key === "()"){
+            key = ParenthesesProcessor.getNextParentheses(this);
+        }
 
         if(selectedText !== "" || this.state.selected && selectedText === ""){
             this.insertTextIntoDisplay(key);
@@ -103,7 +112,8 @@ class Calculator extends Component {
         this.setState({ 
             runningValue: "", 
             selected: false,
-            cursorPos: {start: 0, end: 0}
+            cursorPos: {start: 0, end: 0},
+            parenthesesCount: 0,
         });
     }
 
