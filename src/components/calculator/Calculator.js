@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import Display from '../display/Display'
 import Keypad from '../keypad/Keypad'
-// import Parentheses from './parentheses'
-
 import * as math from 'mathjs'
 import './calculator.css';
 import ParenthesesProcessor from './parentheses';
-
 class Calculator extends Component {
     constructor(props) {
         super(props);
