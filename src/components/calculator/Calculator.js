@@ -55,7 +55,6 @@ class Calculator extends Component {
 
     handleSelect = (event) => {
         if(this.state.runningValue === ""){
-        //   this.setState({selected: false});
           this.setState({
             cursorPos: {
               start: 0,
@@ -65,7 +64,6 @@ class Calculator extends Component {
           this.setInputSelectionRange(0, 0);
         }
         else{
-            //this.textareaRef.current.focus();
             this.setState({
                 cursorPos: {
                   start: event.target.selectionStart,
@@ -79,7 +77,6 @@ class Calculator extends Component {
 
     handleEqualsClick = () => {
         let result = 0;
-        // let running = this.state.runningValue;
 
         try {
             if(this.state.runningValue.includes("/0")){
@@ -90,7 +87,6 @@ class Calculator extends Component {
                 //calculate the math expression on the display
                 result = math.evaluate(this.state.runningValue);
                 this.setState({runningValue: result.toString()});
-                // this.setState({selected: false});
                 let newCursorPos = result.toString().length;
                 this.setState({
                     cursorPos: {
