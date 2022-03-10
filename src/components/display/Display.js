@@ -17,7 +17,11 @@ class Display extends Component {
                 return false;
             }
         });
-        this.textareaRef.current.focus();
+      //  this.textareaRef.current.focus();
+      this.textareaRef.current.setSelectionRange(0, 0);
+      this.textareaRef.current.blur();
+      this.textareaRef.current.focus();
+      this.textareaRef.current.setSelectionRange(0, 0);
     }
 
     render() {
