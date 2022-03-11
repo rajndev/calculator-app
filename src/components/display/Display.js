@@ -10,12 +10,28 @@ class Display extends Component {
     
     componentDidMount () {
         this.props.getRef(this.textareaRef);
-        $("#user-inputs").on( "keypress", function(e) {
-            if(e.key !== 'Backspace')
-            {
+        $("#user-inputs").on( "keypress cut copy paste", function(e) {
+            console.log(e.which);
+            if(e.which >= 48 && e.which <= 57 
+                || e.which === 13 
+                || e.which === 46 
+                || e.which === 47 
+                || e.which === 42 
+                || e.which === 43 
+                || e.which === 45 
+                || e.which === 40 
+                || e.which === 41){
+                return true;
+            }
+            else{
                 e.preventDefault();
                 return false;
             }
+            // if( e.key < 144 || e.key > 153 || e.key !== 'Backspace')
+            // {
+            //     e.preventDefault();
+            //     return false;
+            // }
         });
       //  this.textareaRef.current.focus();
       this.textareaRef.current.setSelectionRange(0, 0);
