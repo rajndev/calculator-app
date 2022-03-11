@@ -10,7 +10,7 @@ class Display extends Component {
     
     componentDidMount () {
         this.props.getRef(this.textareaRef);
-        $("#user-inputs").on( "keypress", function(e) {
+        $("#user-inputs").on( "keypress cut copy paste", function(e) {
             if(e.key !== 'Backspace')
             {
                 e.preventDefault();
