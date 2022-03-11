@@ -109,6 +109,7 @@ class Calculator extends Component {
             runningValue: "",
             cursorPos: {start: 0, end: 0},
         });
+        this.setInputSelectionRange(0, 0);
     }
 
     handleBackClick = () => {
