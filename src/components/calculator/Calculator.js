@@ -3,7 +3,7 @@ import Display from '../display/Display'
 import Keypad from '../keypad/Keypad'
 import * as math from 'mathjs'
 import './calculator.css';
-import ParenthesesProcessor from './parentheses';
+import ParenthesesProcessor from './ParenthesesProcessor';
 
 class Calculator extends Component {
     constructor(props) {
@@ -16,12 +16,12 @@ class Calculator extends Component {
     }
 
     handleKeyClick = (key) => {
-        if(key === "()"){
+        if (key === "()") {
             key = ParenthesesProcessor.getNextParentheses(this);
         }
 
         //if the cursor is currently at the end of the running display value
-        if(this.state.cursorPos.start === this.state.runningValue.length + 1 || this.state.runningValue === ""){
+        if (this.state.cursorPos.start === this.state.runningValue.length + 1 || this.state.runningValue === "") {
             this.setState(prevState => ({
                 runningValue: prevState.runningValue.concat(key)
             }));
@@ -37,12 +37,10 @@ class Calculator extends Component {
             });
 
             //scroll up the text in the display when it reaches the bottom of the textarea
-            if(this.textareaRef != null){
+            if (this.textareaRef != null) {
                 this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
             }
-        }
-        else
-        {
+        } else {
             this.insertTextIntoDisplay(key);
         }
     }
@@ -53,7 +51,7 @@ class Calculator extends Component {
     }
 
     handleSelect = (event) => {
-        if(this.state.runningValue === ""){
+        if (this.state.runningValue === "") {
           this.setState({
             cursorPos: {
               start: 0,
@@ -61,8 +59,7 @@ class Calculator extends Component {
             },
           });
           this.setInputSelectionRange(0, 0);
-        }
-        else{
+        } else {
             this.setState({
                 cursorPos: {
                   start: event.target.selectionStart,
@@ -78,12 +75,11 @@ class Calculator extends Component {
         let result = 0;
 
         try {
-            if(this.state.runningValue.includes("/0")){
+            if (this.state.runningValue.includes("/0")) {
                 alert("Cannot divide by 0! Please check your input.");
                 return;
-            }
-            else{
-                //calculate the math expression on the display
+            } else {
+                //calculate the math expression in the display
                 result = math.evaluate(this.state.runningValue);
                 this.setState({runningValue: result.toString()});
                 let newCursorPos = result.toString().length;
@@ -96,8 +92,7 @@ class Calculator extends Component {
                     this.setInputSelectionRange(newCursorPos, newCursorPos);
                 });
             }
-        }
-        catch {
+        } catch {
             alert("Invalid calculation!");
             return;
         }
@@ -114,14 +109,12 @@ class Calculator extends Component {
     handleBackClick = () => {
         let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
 
-        if(this.state.runningValue === "" || this.state.cursorPos.start === 0){
+        if (this.state.runningValue === "" || this.state.cursorPos.start === 0) {
             this.setInputSelectionRange(0, 0);
             return;
-        } //if a text selection exists or no selection exists while the textarea is selected
-        else if(selectedText || selectedText === ""){
+        } else if (selectedText || selectedText === "") {
             this.deleteTextFromDisplay(selectedText);
-        }
-        else{
+        } else { //default trailing deletion behavior
             let sliced = this.state.runningValue.slice(0, -1);
             this.setState({ runningValue: sliced });
         }
@@ -135,15 +128,14 @@ class Calculator extends Component {
         let allSelected = selectedText === this.state.runningValue;
         let updatedText;
 
-        if(key === "(" || key === ")"){
+        if (key === "(" || key === ")") {
             key = ParenthesesProcessor.getNextParentheses(this);
         }
 
         //if the entire input is selected
         if(allSelected){
             updatedText = key;
-        }
-        else{
+        } else {
             updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
         }
 
@@ -152,16 +144,14 @@ class Calculator extends Component {
         });
         
         this.setState(prevState => {
-            if(selectedText !== ""){
-                if(allSelected){
+            if (selectedText !== "") {
+                if (allSelected) {
                     return {cursorPos:{
                         start: 1,
                         end: 1
                         },
                     }
-                }
-                else
-                {
+                } else {
                      return {cursorPos:{
                         start: cursorStartPos + 1,
                         end: cursorEndPos + 1
@@ -169,9 +159,7 @@ class Calculator extends Component {
                     }
                 }
                
-            }
-            else if(selectedText === "")
-            {
+            } else if (selectedText === "") {
                 return {cursorPos:{
                     start: prevState.cursorPos.start + 1,
                     end: prevState.cursorPos.end + 1
@@ -190,25 +178,22 @@ class Calculator extends Component {
         let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
         let updatedText =  selectedText ? textBeforeCursorStart + textAfterCursorEnd : textBeforeCursorStart.slice(0, -1) + textAfterCursorEnd;
 
-        if(updatedText){
+        //if a selection was made or display was clicked
+        if (updatedText) {
             this.setState({runningValue: updatedText});
-            if(selectedText){
+            if (selectedText) {
                 this.setState({
                     cursorPos: { start: cursorStartPos, end: cursorEndPos }}, () => {
                     this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
                 });
-            }
-            else
-            {
+            } else {
                 this.setState(prevState => {
                     return { cursorPos: { start: prevState.cursorPos.start - 1, end: prevState.cursorPos.end - 1}};
                 },  () => {
                     this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
                 });
             }
-        }
-        else
-        {
+        } else { //else reset the display since the entire expression was selected
             this.setState({runningValue: "", cursorPos: {start: 0, end: 0}});
             this.setInputSelectionRange(0, 0);  
         }
