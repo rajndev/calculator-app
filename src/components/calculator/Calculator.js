@@ -106,14 +106,11 @@ class Calculator extends Component {
     handleBackClick = () => {
         let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
 
-        if (this.state.runningValue === "" || this.state.cursorPos.start === 0) {
+        if (this.state.runningValue === "" || this.state.cursorPos.start === 0 && this.state.cursorPos.end === 0) {
             this.setInputSelectionRange(0, 0);
             return;
-        } else if (selectedText || selectedText === "") {
+        } else {
             this.deleteTextFromDisplay(selectedText);
-        } else { //default trailing deletion behavior
-            let sliced = this.state.runningValue.slice(0, -1);
-            this.setState({ runningValue: sliced });
         }
     }
 
