@@ -23,16 +23,12 @@ class Calculator extends Component {
         //if the cursor is currently at the end of the running display value
         if (this.state.cursorPos.start === this.state.runningValue.length + 1 || this.state.runningValue === "") {
             this.setState(prevState => ({
-                runningValue: prevState.runningValue.concat(key)
-            }));
-
-            this.setState(prevState => {
-                return {cursorPos:{
+                runningValue: prevState.runningValue.concat(key),
+                cursorPos:{
                     start: prevState.cursorPos.start + 1,
                     end: prevState.cursorPos.end + 1
                     },
-                }
-            }, () => {
+            }), () => {
                 this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
             });
 
@@ -109,63 +105,29 @@ class Calculator extends Component {
     handleBackClick = () => {
         let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
 
-        if (this.state.runningValue === "" || this.state.cursorPos.start === 0) {
+        if (this.state.runningValue === "" || this.state.cursorPos.start === 0 && this.state.cursorPos.end === 0) {
             this.setInputSelectionRange(0, 0);
             return;
-        } else if (selectedText || selectedText === "") {
+        } else {
             this.deleteTextFromDisplay(selectedText);
-        } else { //default trailing deletion behavior
-            let sliced = this.state.runningValue.slice(0, -1);
-            this.setState({ runningValue: sliced });
         }
     }
 
-    insertTextIntoDisplay = (key, selectedText) => {
-        let cursorStartPos = this.state.cursorPos.start;
-        let cursorEndPos = this.state.cursorPos.end;
+    insertTextIntoDisplay = (key) => {
+        let cursorStartPos = this.textareaRef.current.selectionStart;
+        let cursorEndPos = this.textareaRef.current.selectionEnd;
         let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
         let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
-        let allSelected = selectedText === this.state.runningValue;
-        let updatedText;
 
         if (key === "(" || key === ")") {
             key = ParenthesesProcessor.getNextParentheses(this);
         }
 
-        //if the entire input is selected
-        if(allSelected){
-            updatedText = key;
-        } else {
-            updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
-        }
+        let updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
 
         this.setState({
-            runningValue: updatedText
-        });
-        
-        this.setState(prevState => {
-            if (selectedText !== "") {
-                if (allSelected) {
-                    return {cursorPos:{
-                        start: 1,
-                        end: 1
-                        },
-                    }
-                } else {
-                     return {cursorPos:{
-                        start: cursorStartPos + 1,
-                        end: cursorEndPos + 1
-                        },
-                    }
-                }
-               
-            } else if (selectedText === "") {
-                return {cursorPos:{
-                    start: prevState.cursorPos.start + 1,
-                    end: prevState.cursorPos.end + 1
-                    },
-                }
-            }
+            runningValue: updatedText,
+            cursorPos: { start: cursorStartPos + 1, end: cursorEndPos + 1}
         }, () => {
             this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
         });
