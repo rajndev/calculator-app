@@ -1,5 +1,5 @@
 class ParenthesesProcessor {
-    static getNextParentheses = (calcComponent) => {
+    static getNextParenthesis = (calcComponent) => {
         if (calcComponent.state.cursorPos.start === 0) {
             return "(";
         } else {
