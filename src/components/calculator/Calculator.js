@@ -28,17 +28,19 @@ class Calculator extends Component {
                     start: prevState.cursorPos.start + 1,
                     end: prevState.cursorPos.end + 1
                     },
-            }), () => {
-                this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
-            });
+                }), () => {
+                    this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+                }
+            );
 
             //scroll up the text in the display when it reaches the bottom of the textarea
             if (this.textareaRef != null) {
                 this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
             }
-        } else {
-            this.insertTextIntoDisplay(key);
+
+            return;
         }
+            this.insertTextIntoDisplay(key);
     }
 
     //the backspace key on the keyboard is pressed
@@ -55,16 +57,18 @@ class Calculator extends Component {
             },
           });
           this.setInputSelectionRange(0, 0);
-        } else {
-            this.setState({
-                cursorPos: {
-                  start: event.target.selectionStart,
-                  end: event.target.selectionEnd
-                }
-              }, () => {
+          return;
+        } 
+        
+        this.setState({
+            cursorPos: {
+              start: event.target.selectionStart,
+              end: event.target.selectionEnd
+            }
+            }, () => {
                 this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.end);
-              });
-        }
+            }
+        );
     }
 
     handleEqualsClick = () => {
@@ -74,20 +78,21 @@ class Calculator extends Component {
             if (this.state.runningValue.includes("/0")) {
                 alert("Cannot divide by 0! Please check your input.");
                 return;
-            } else {
-                //calculate the math expression in the display
-                result = math.evaluate(this.state.runningValue);
-                this.setState({runningValue: result.toString()});
-                let newCursorPos = result.toString().length;
-                this.setState({
-                    cursorPos: {
-                    start: newCursorPos,
-                    end: newCursorPos
-                    },
-                }, () => {
-                    this.setInputSelectionRange(newCursorPos, newCursorPos);
-                });
             }
+
+            //calculate the math expression in the display
+            result = math.evaluate(this.state.runningValue);
+            this.setState({runningValue: result.toString()});
+            let newCursorPos = result.toString().length;
+            this.setState({
+                cursorPos: {
+                start: newCursorPos,
+                end: newCursorPos
+                },
+            }, () => {
+                this.setInputSelectionRange(newCursorPos, newCursorPos);
+            });
+            
         } catch {
             alert("Invalid calculation!");
             return;
@@ -108,9 +113,9 @@ class Calculator extends Component {
         if (this.state.runningValue === "" || this.state.cursorPos.start === 0 && this.state.cursorPos.end === 0) {
             this.setInputSelectionRange(0, 0);
             return;
-        } else {
-            this.deleteTextFromDisplay(selectedText);
         }
+        
+        this.deleteTextFromDisplay(selectedText);
     }
 
     insertTextIntoDisplay = (key) => {
@@ -148,17 +153,21 @@ class Calculator extends Component {
                     cursorPos: { start: cursorStartPos, end: cursorEndPos }}, () => {
                     this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
                 });
-            } else {
-                this.setState(prevState => {
-                    return { cursorPos: { start: prevState.cursorPos.start - 1, end: prevState.cursorPos.end - 1}};
-                },  () => {
-                    this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
-                });
+                return;
             }
-        } else { //else reset the display since the entire expression was selected
-            this.setState({runningValue: "", cursorPos: {start: 0, end: 0}});
-            this.setInputSelectionRange(0, 0);  
+
+            this.setState(prevState => {
+                return { cursorPos: { start: prevState.cursorPos.start - 1, end: prevState.cursorPos.end - 1}};
+            },  () => {
+                this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
+            });
+            return;
         }
+
+        //else reset the display since the entire expression was selected
+        this.setState({runningValue: "", cursorPos: {start: 0, end: 0}});
+        this.setInputSelectionRange(0, 0);  
+    
     }
 
     setInputSelectionRange = (selectionStart, selectionEnd) => {
