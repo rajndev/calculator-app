@@ -17,7 +17,7 @@ class Calculator extends Component {
 
     handleKeyClick = (key) => {
         if (key === "()") {
-            key = ParenthesesProcessor.getNextParentheses(this);
+            key = ParenthesesProcessor.getNextParenthesis(this);
         }
 
         //if the cursor is currently at the end of the running display value
@@ -125,7 +125,7 @@ class Calculator extends Component {
         let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
 
         if (key === "(" || key === ")") {
-            key = ParenthesesProcessor.getNextParentheses(this);
+            key = ParenthesesProcessor.getNextParenthesis(this);
         }
 
         let updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
