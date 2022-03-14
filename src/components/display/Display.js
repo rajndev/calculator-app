@@ -27,13 +27,8 @@ class Display extends Component {
                 e.preventDefault();
                 return false;
             }
-            // if( e.key < 144 || e.key > 153 || e.key !== 'Backspace')
-            // {
-            //     e.preventDefault();
-            //     return false;
-            // }
         });
-      //  this.textareaRef.current.focus();
+
       this.textareaRef.current.setSelectionRange(0, 0);
       this.textareaRef.current.blur();
       this.textareaRef.current.focus();
