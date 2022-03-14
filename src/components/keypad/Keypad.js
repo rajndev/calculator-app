@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './keypad.css'
 
 class Keypad extends Component {
-    render(e) {
+    render() {
         return (
             <div className="keys">
                 <div className="row">
