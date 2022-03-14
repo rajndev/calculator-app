@@ -23,16 +23,12 @@ class Calculator extends Component {
         //if the cursor is currently at the end of the running display value
         if (this.state.cursorPos.start === this.state.runningValue.length + 1 || this.state.runningValue === "") {
             this.setState(prevState => ({
-                runningValue: prevState.runningValue.concat(key)
-            }));
-
-            this.setState(prevState => {
-                return {cursorPos:{
+                runningValue: prevState.runningValue.concat(key),
+                cursorPos:{
                     start: prevState.cursorPos.start + 1,
                     end: prevState.cursorPos.end + 1
                     },
-                }
-            }, () => {
+            }), () => {
                 this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
             });
 
@@ -41,7 +37,8 @@ class Calculator extends Component {
                 this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
             }
         } else {
-            this.insertTextIntoDisplay(key);
+            let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
+            this.insertTextIntoDisplay(key, selectedText);
         }
     }
 
