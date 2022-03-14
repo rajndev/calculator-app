@@ -37,8 +37,7 @@ class Calculator extends Component {
                 this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
             }
         } else {
-            let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
-            this.insertTextIntoDisplay(key, selectedText);
+            this.insertTextIntoDisplay(key);
         }
     }
 
@@ -114,52 +113,21 @@ class Calculator extends Component {
         }
     }
 
-    insertTextIntoDisplay = (key, selectedText) => {
-        let cursorStartPos = this.state.cursorPos.start;
-        let cursorEndPos = this.state.cursorPos.end;
+    insertTextIntoDisplay = (key) => {
+        let cursorStartPos = this.textareaRef.current.selectionStart;
+        let cursorEndPos = this.textareaRef.current.selectionEnd;
         let textBeforeCursorStart = this.state.runningValue.substring(0, cursorStartPos);
         let textAfterCursorEnd = this.state.runningValue.substring(cursorEndPos, this.state.runningValue.length);
-        let allSelected = selectedText === this.state.runningValue;
-        let updatedText;
 
         if (key === "(" || key === ")") {
             key = ParenthesesProcessor.getNextParentheses(this);
         }
 
-        //if the entire input is selected
-        if(allSelected){
-            updatedText = key;
-        } else {
-            updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
-        }
+        let updatedText = textBeforeCursorStart + key + textAfterCursorEnd;
 
         this.setState({
-            runningValue: updatedText
-        });
-        
-        this.setState(prevState => {
-            if (selectedText !== "") {
-                if (allSelected) {
-                    return {cursorPos:{
-                        start: 1,
-                        end: 1
-                        },
-                    }
-                } else {
-                     return {cursorPos:{
-                        start: cursorStartPos + 1,
-                        end: cursorEndPos + 1
-                        },
-                    }
-                }
-               
-            } else if (selectedText === "") {
-                return {cursorPos:{
-                    start: prevState.cursorPos.start + 1,
-                    end: prevState.cursorPos.end + 1
-                    },
-                }
-            }
+            runningValue: updatedText,
+            cursorPos: { start: cursorStartPos + 1, end: cursorEndPos + 1}
         }, () => {
             this.setInputSelectionRange(this.state.cursorPos.start, this.state.cursorPos.start);
         });
