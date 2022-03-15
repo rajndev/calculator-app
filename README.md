@@ -6,7 +6,7 @@ This is a demo calculator app built entirely with the React JavaScript library.
 
 
 <p align="center">
-  <a href="https://rajndev.github.io/react-demo-calculator-app"><img height=625 src="screenshots/calc.gif"></a>
+  <a href="https://rajndev.github.io/react-demo-calculator-app"><img height=620 width=386 src="screenshots/calc.gif"></a>
 </p>
 
 ## Features:
