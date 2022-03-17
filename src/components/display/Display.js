@@ -10,21 +10,28 @@ class Display extends Component {
     
     componentDidMount () {
         this.props.getRef(this.textareaRef);
-        $("#user-inputs").on( "keypress cut copy paste", function(e) {
-            console.log(e.which);
-            if(e.which >= 48 && e.which <= 57 
-                || e.which === 13 
-                || e.which === 46 
-                || e.which === 47 
-                || e.which === 42 
-                || e.which === 43 
-                || e.which === 45 
-                || e.which === 40 
-                || e.which === 41){
+        $("#user-inputs").on( "keypress cut copy paste", function(event) {
+            const KeyboardKeys = {
+                NUMPAD_ZERO_KEY: 48,
+                NUMPAD_NINE_KEY: 57,
+                NUMPAD_DOT_KEY: 46,
+                NUMPAD_PLUS_KEY: 43,
+                NUMPAD_MINUS_KEY: 45,
+                NUMPAD_MULTIPLY_KEY: 42,
+                NUMPAD_DIVIDE_KEY: 47,
+             };
+             Object.freeze(KeyboardKeys);
+            //TODO: consider refactoring these hardcoded key code numbers into a JS enum
+            if(event.which >= KeyboardKeys.NUMPAD_ZERO_KEY && event.which <= KeyboardKeys.NUMPAD_NINE_KEY
+                || event.which === KeyboardKeys.NUMPAD_DOT_KEY 
+                || event.which === KeyboardKeys.NUMPAD_PLUS_KEY 
+                || event.which === KeyboardKeys.NUMPAD_MINUS_KEY 
+                || event.which === KeyboardKeys.NUMPAD_MULTIPLY_KEY 
+                || event.which === KeyboardKeys.NUMPAD_DIVIDE_KEY ){
                 return true;
             }
             else{
-                e.preventDefault();
+                event.preventDefault();
                 return false;
             }
         });
