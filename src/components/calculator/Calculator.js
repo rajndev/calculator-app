@@ -126,7 +126,7 @@ class Calculator extends Component {
     }
 
     handleBackClick = () => {
-        let cursorIsAtBeginning = this.state.cursorPosition.start === 0 && this.state.cursorPosition.end === 0; 
+        let cursorIsAtBeginning = this.textareaRef.current.selectionStart === 0 && this.textareaRef.current.selectionEnd === 0; 
         if (this.state.runningValue === "" || cursorIsAtBeginning) {
             this.setInputSelectionRange(0, 0);
             return;
