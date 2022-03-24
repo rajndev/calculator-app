@@ -166,8 +166,7 @@ class Calculator extends Component {
 
         //else reset the display since the entire expression was selected
         this.setState({runningValue: "", cursorPosition: {start: 0, end: 0}});
-        this.setInputSelectionRange(0, 0);  
-    
+        this.setInputSelectionRange(0, 0);
     }
 
     setInputSelectionRange = (selectionStart, selectionEnd) => {
@@ -185,18 +184,18 @@ class Calculator extends Component {
         if(modalType === "invalid") 
         {
             this.setState({isInvalidInputModalOpen: true})
-         } else {
-            this.setState({isDivideByZeroModalOpen: true});
+            return;
          }
+            this.setState({isDivideByZeroModalOpen: true});
     }
     
     hideModal = (modalType) => {
         if(modalType === "invalid") 
         {
             this.setState({isInvalidInputModalOpen: false});
-         } else {
-            this.setState({isDivideByZeroModalOpen: false});
+            return;
          }
+            this.setState({isDivideByZeroModalOpen: false});
     }
     
     render() {
@@ -209,7 +208,7 @@ class Calculator extends Component {
                     <Modal.Body>Your mathematical expression is invalid!</Modal.Body>
                 </Modal>
                 <Modal show={this.state.isDivideByZeroModalOpen} onHide={() => this.hideModal("zero")}>
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <Modal.Title>Invalid Operation</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>You can't divide by 0!</Modal.Body>
