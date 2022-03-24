@@ -4,6 +4,8 @@ import Keypad from '../keypad/Keypad'
 import * as math from 'mathjs'
 import './calculator.css';
 import ParenthesesProcessor from './ParenthesesProcessor';
+import Modal from "react-bootstrap/Modal";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class Calculator extends Component {
     constructor(props) {
@@ -11,6 +13,8 @@ class Calculator extends Component {
         this.state = {
             runningValue: "",
             cursorPosition: {start: 0, end: 0},
+            isDivideByZeroModalOpen: false,
+            isInvalidInputModalOpen: false,
         };
         this.textareaRef = React.createRef(null);
     }
@@ -95,7 +99,7 @@ class Calculator extends Component {
 
         try {
             if (this.state.runningValue.includes("/0")) {
-                alert("Cannot divide by 0! Please check your input.");
+                this.showModal("zero");
                 return;
             }
 
@@ -112,7 +116,7 @@ class Calculator extends Component {
             });
             
         } catch {
-            alert("Invalid calculation!");
+            this.showModal("invalid");
             return;
         }
     }
@@ -176,9 +180,39 @@ class Calculator extends Component {
         this.textareaRef = ref;
     }
 
+    showModal = (modalType) => {
+        if(modalType === "invalid") 
+        {
+            this.setState({isInvalidInputModalOpen: true})
+         } else {
+            this.setState({isDivideByZeroModalOpen: true});
+         }
+    }
+    
+    hideModal = (modalType) => {
+        if(modalType === "invalid") 
+        {
+            this.setState({isInvalidInputModalOpen: false});
+         } else {
+            this.setState({isDivideByZeroModalOpen: false});
+         }
+    }
+    
     render() {
         return (
             <div className="container">
+                <Modal show={this.state.isInvalidInputModalOpen} onHide={() => this.hideModal("invalid")}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Input Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Your mathematical expression is invalid!</Modal.Body>
+                </Modal>
+                <Modal show={this.state.isDivideByZeroModalOpen} onHide={() => this.hideModal("zero")}>
+                    <Modal.Header>
+                        <Modal.Title>Invalid Operation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>You can't divide by 0!</Modal.Body>
+                </Modal>
                 <Display 
                     value={this.state.runningValue} 
                     onChange={() => this.handleInputChange()} 
