@@ -77,7 +77,9 @@ class Calculator extends Component {
     }
 
     handleInputChange = () => {
-        this.setState({runningValue: this.textareaRef.current.value});
+        this.setState({runningValue: this.textareaRef.current.value}, () => {
+            this.counter = 50 - this.state.runningValue.length;
+        });
     }
 
     handleSelect = (event) => {
