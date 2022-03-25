@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: center;
     align-self: center;
+    gap: 2px;
     width: 108%;
     height: 50px;
     padding: 70px 0;
@@ -15,7 +16,7 @@
   textarea.user-inputs {
     align-self: center;
     max-width: 310px;
-    height: 95px;
+    height: 110px;
     font-size: 38px;
     padding-left: 5px;
     color: whitesmoke;
@@ -23,8 +24,20 @@
     outline: none;
     resize: none;
     background-color: #ff0509;
+    border-radius: 10px;
     font-weight: bold;
     text-align: left;
     overflow-y: hidden;
   }
+
+.counter {
+  width: 90;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-size: .95em;
+  font-family: monospace;
+  background-color: lightyellow;
+  align-self: flex-end;
+  border-top-left-radius: 10px;
+}
   
