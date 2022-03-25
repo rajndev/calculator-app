@@ -77,14 +77,10 @@ class Calculator extends Component {
     }
 
     handleInputChange = () => {
-        this.setState({runningValue: this.textareaRef.current.value}, () => {
-
-            this.counter = 50 - this.state.runningValue.length;
-        });
-        if(this.counter <= 0){
-            return;
+            this.setState({ runningValue: this.textareaRef.current.value }, () => {
+                this.counter = 50 - this.state.runningValue.length;
+            });
         }
-    }
 
     handleSelect = (event) => {
         if (this.state.runningValue === "") {
@@ -241,13 +237,15 @@ class Calculator extends Component {
                     counter={this.counter}
                     onChange={() => this.handleInputChange()} 
                     onSelect={(event) => this.handleSelect(event)}
-                    getRef={(ref) => this.getTextareaRef(ref)}/>
+                    getRef={(ref) => this.getTextareaRef(ref)}
+                />
 
                 <Keypad 
                     onKeyClick={i => this.handleKeyClick(i)}
                     onEqualsKeyClick={() => this.handleEqualsClick()}
                     onClearKeyClick={() => this.handleClearClick()}
-                    onBackKeyClick={() => this.handleBackClick()} />
+                    onBackKeyClick={() => this.handleBackClick()}
+                />
             </div>
         )
     }
