@@ -17,15 +17,22 @@ class Calculator extends Component {
             isInvalidInputModalOpen: false,
         };
         this.textareaRef = React.createRef(null);
+        this.counter = 50;
     }
 
     handleKeyClick = (key) => {
+
+        if(this.counter <= 0){
+            return;
+        }
+
         if (key === "()") {
             key = ParenthesesProcessor.getNextParenthesis(this);
         }
 
         let cursorIsAtEnd = this.state.cursorPosition.start === this.state.runningValue.length + 1;
         if (this.state.runningValue === "" || cursorIsAtEnd) {
+
             this.setState(prevState => ({
                 runningValue: prevState.runningValue.concat(key),
                 cursorPosition:{
@@ -34,6 +41,7 @@ class Calculator extends Component {
                     },
                 }), () => {
                     this.setInputSelectionRange(this.state.cursorPosition.start, this.state.cursorPosition.start);
+                    this.counter = 50 - this.state.runningValue.length;
                 }
             );
 
@@ -64,6 +72,7 @@ class Calculator extends Component {
             cursorPosition: { start: cursorStartPosition + 1, end: cursorEndPosition + 1}
         }, () => {
             this.setInputSelectionRange(this.state.cursorPosition.start, this.state.cursorPosition.start);
+            this.counter = 50 - this.state.runningValue.length;
         });
     }
 
@@ -104,7 +113,10 @@ class Calculator extends Component {
             }
 
             result = math.evaluate(this.state.runningValue);
-            this.setState({runningValue: result.toString()});
+            this.setState({runningValue: result.toString()}, () => {
+                let charsLeft = 50 - this.state.runningValue.length;
+                this.counter =  charsLeft < 0 ? 0 : charsLeft;
+            });
             let newCursorPosition = result.toString().length;
             this.setState({
                 cursorPosition: {
@@ -127,12 +139,14 @@ class Calculator extends Component {
             cursorPosition: {start: 0, end: 0},
         });
         this.setInputSelectionRange(0, 0);
+        this.counter = 50;
     }
 
     handleBackClick = () => {
         let cursorIsAtBeginning = this.textareaRef.current.selectionStart === 0 && this.textareaRef.current.selectionEnd === 0; 
         if (this.state.runningValue === "" || cursorIsAtBeginning) {
             this.setInputSelectionRange(0, 0);
+            this.counter = 50;
             return;
         }
         let selectedText = this.state.runningValue.substring(this.textareaRef.current.selectionStart, this.textareaRef.current.selectionEnd);
@@ -147,7 +161,9 @@ class Calculator extends Component {
         let updatedText =  selectedText ? textBeforeCursorStart + textAfterCursorEnd : textBeforeCursorStart.slice(0, -1) + textAfterCursorEnd;
 
         if (updatedText) {
-            this.setState({runningValue: updatedText});
+            this.setState({runningValue: updatedText}, () => {
+                this.counter = 50 - this.state.runningValue.length;
+            });
             if (selectedText) {
                 this.setState({
                     cursorPosition: { start: cursorStartPosition, end: cursorEndPosition }}, () => {
@@ -167,6 +183,7 @@ class Calculator extends Component {
         //else reset the display since the entire expression was selected
         this.setState({runningValue: "", cursorPosition: {start: 0, end: 0}});
         this.setInputSelectionRange(0, 0);
+        this.counter = 50;
     }
 
     setInputSelectionRange = (selectionStart, selectionEnd) => {
@@ -215,6 +232,7 @@ class Calculator extends Component {
                 </Modal>
                 <Display 
                     value={this.state.runningValue} 
+                    counter={this.counter}
                     onChange={() => this.handleInputChange()} 
                     onSelect={(event) => this.handleSelect(event)}
                     getRef={(ref) => this.getTextareaRef(ref)}/>
