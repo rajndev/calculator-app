@@ -56,7 +56,7 @@ class Display extends Component {
                     onSelect={this.props.onSelect}/>
                 </div>
                 <div className="counter">
-                    {this.props.counter} characters left
+                    {this.props.counter}/50
                 </div>
             </div>
         )
