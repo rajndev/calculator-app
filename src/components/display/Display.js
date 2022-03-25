@@ -53,7 +53,8 @@ class Display extends Component {
                     value={this.props.value} 
                     ref={this.textareaRef}
                     onChange={this.props.onChange}
-                    onSelect={this.props.onSelect}/>
+                    onSelect={this.props.onSelect}
+                    maxLength="50"/>
                 </div>
                 <div className="counter">
                     {this.props.counter}/50
