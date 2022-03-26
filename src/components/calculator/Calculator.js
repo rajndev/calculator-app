@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Display from '../display/Display'
 import Keypad from '../keypad/Keypad'
-import * as math from 'mathjs'
-import './calculator.css';
 import ParenthesesProcessor from './ParenthesesProcessor';
+import * as math from 'mathjs'
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
+import './calculator.css';
 
 class Calculator extends Component {
     constructor(props) {
@@ -44,12 +44,6 @@ class Calculator extends Component {
                     this.counter = 50 - this.state.runningValue.length;
                 }
             );
-
-            //scroll up the text in the display when it reaches the bottom of the textarea
-            if (this.textareaRef != null) {
-                this.textareaRef.current.scrollTop = this.textareaRef.current.scrollHeight;
-            }
-
             return;
         }
             this.insertTextIntoDisplay(key);
@@ -99,10 +93,7 @@ class Calculator extends Component {
               start: event.target.selectionStart,
               end: event.target.selectionEnd
             }
-            }, () => {
-                this.setInputSelectionRange(this.state.cursorPosition.start, this.state.cursorPosition.end);
-            }
-        );
+        });
     }
 
     handleEqualsClick = () => {
