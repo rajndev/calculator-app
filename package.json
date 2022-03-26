@@ -1,6 +1,6 @@
 {
   "name": "calculator-app",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "homepage": "http://rajndev.github.io/react-demo-calculator-app",
   "private": false,
   "dependencies": {
