@@ -48,7 +48,7 @@ class Display extends Component {
                 <div>
                     <textarea 
                     type="text" 
-                    id="user-inputs" 
+                    id="textarea-scroll" 
                     className="user-inputs" 
                     value={this.props.value} 
                     ref={this.textareaRef}
