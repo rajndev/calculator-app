@@ -1,6 +1,6 @@
 # React Demo Calculator App
 
-This is a demo calculator app built entirely with the React JavaScript library.
+This is a demo calculator app built entirely with the React JS library.
 
 ## Screenshot:
 
