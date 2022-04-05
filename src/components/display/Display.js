@@ -10,7 +10,7 @@ class Display extends Component {
     
     componentDidMount () {
         this.props.getRef(this.textareaRef);
-        $("#user-inputs").on( "keypress cut copy paste", function(event) {
+        $(".user-inputs").on( "keypress cut copy paste", function(event) {
             const KeyboardKeys = {
                 NUMPAD_ZERO_KEY: 48,
                 NUMPAD_NINE_KEY: 57,
@@ -21,7 +21,6 @@ class Display extends Component {
                 NUMPAD_DIVIDE_KEY: 47,
              };
              Object.freeze(KeyboardKeys);
-            //TODO: consider refactoring these hardcoded key code numbers into a JS enum
             if(event.which >= KeyboardKeys.NUMPAD_ZERO_KEY && event.which <= KeyboardKeys.NUMPAD_NINE_KEY
                 || event.which === KeyboardKeys.NUMPAD_DOT_KEY 
                 || event.which === KeyboardKeys.NUMPAD_PLUS_KEY 
