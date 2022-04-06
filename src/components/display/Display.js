@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {isMobile} from 'react-device-detect';
 import $ from "jquery"
 import './display.css';
 
@@ -10,30 +11,34 @@ class Display extends Component {
     
     componentDidMount () {
         this.props.getRef(this.textareaRef);
-        $(".user-inputs").on( "keypress cut copy paste", function(event) {
-            const KeyboardKeys = {
-                NUMPAD_ZERO_KEY: 48,
-                NUMPAD_NINE_KEY: 57,
-                NUMPAD_DOT_KEY: 46,
-                NUMPAD_PLUS_KEY: 43,
-                NUMPAD_MINUS_KEY: 45,
-                NUMPAD_MULTIPLY_KEY: 42,
-                NUMPAD_DIVIDE_KEY: 47,
-             };
-             Object.freeze(KeyboardKeys);
-            if(event.which >= KeyboardKeys.NUMPAD_ZERO_KEY && event.which <= KeyboardKeys.NUMPAD_NINE_KEY
-                || event.which === KeyboardKeys.NUMPAD_DOT_KEY 
-                || event.which === KeyboardKeys.NUMPAD_PLUS_KEY 
-                || event.which === KeyboardKeys.NUMPAD_MINUS_KEY 
-                || event.which === KeyboardKeys.NUMPAD_MULTIPLY_KEY 
-                || event.which === KeyboardKeys.NUMPAD_DIVIDE_KEY ){
-                return true;
-            }
-            else{
-                event.preventDefault();
-                return false;
-            }
-        });
+        if(!isMobile){
+            $(".user-inputs").on( "keypress cut copy paste", function(event) {
+                const KeyboardKeys = {
+                    NUMPAD_ZERO_KEY: 48,
+                    NUMPAD_NINE_KEY: 57,
+                    NUMPAD_DOT_KEY: 46,
+                    NUMPAD_PLUS_KEY: 43,
+                    NUMPAD_MINUS_KEY: 45,
+                    NUMPAD_MULTIPLY_KEY: 42,
+                    NUMPAD_DIVIDE_KEY: 47,
+                 };
+                 Object.freeze(KeyboardKeys);
+                if(event.which >= KeyboardKeys.NUMPAD_ZERO_KEY && event.which <= KeyboardKeys.NUMPAD_NINE_KEY
+                    || event.which === KeyboardKeys.NUMPAD_DOT_KEY 
+                    || event.which === KeyboardKeys.NUMPAD_PLUS_KEY 
+                    || event.which === KeyboardKeys.NUMPAD_MINUS_KEY 
+                    || event.which === KeyboardKeys.NUMPAD_MULTIPLY_KEY 
+                    || event.which === KeyboardKeys.NUMPAD_DIVIDE_KEY ){
+                    return true;
+                }
+                else{
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        } else {
+            $(".user-inputs").attr("readonly","readonly");
+        }
 
       this.textareaRef.current.setSelectionRange(0, 0);
       this.textareaRef.current.blur();
