@@ -37,7 +37,7 @@ class Display extends Component {
                 }
             });
         } else {
-            $(".user-inputs").attr("readonly","readonly");
+            $(".user-inputs").attr("inputmode","none");
         }
 
       this.textareaRef.current.setSelectionRange(0, 0);
