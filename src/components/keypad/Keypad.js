@@ -9,7 +9,7 @@ class Keypad extends Component {
                     <button name="C" className="helper rounded-circle" onClick={(e) => this.props.onClearKeyClick(e.target.name)}>C</button>
                     <button name="%" className="helper rounded-circle" onClick={(e) => this.props.onKeyClick(e.target.name)}>%</button>
                     <button name="()" className="helper rounded-circle" onClick={(e) => this.props.onKeyClick(e.target.name)}>( )</button>
-                    <button name="&#44;" className="operator rounded-circle" onClick={(e) => this.props.onKeyClick(e.target.name)}>&#43;</button>
+                    <button name="+" className="operator rounded-circle" onClick={(e) => this.props.onKeyClick(e.target.name)}>+</button>
                 </div>
                 <div className="row">
                     <button name="7"  className="rounded-circle" onClick={(e) => this.props.onKeyClick(e.target.name)}>7</button>
