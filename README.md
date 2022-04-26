@@ -13,8 +13,8 @@ This is a demo calculator app built entirely with the React JS library.
 
 - Use the keypad or keyboard to enter a math expression in the display
 - Click anywhere in the display with or without selection to add to the input
-- Selection delete any part of the input with the back key
-- Delete sequentially from any point in the input with the back key
+- Selection delete any part of the input with the back key on the keypad
+- Delete sequentially from any point in the input with the back key on the keypad
 - Use the keyboard backspace key to delete any part of the input
 
 ## Technology Stacks and Tools Used:
